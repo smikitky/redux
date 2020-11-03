@@ -1,35 +1,35 @@
 ---
 id: part-2-app-structure
-title: 'Redux Essentials, Part 2: Redux App Structure'
-sidebar_label: 'Redux App Structure'
+title: '必修チュートリアル 2：Redux アプリの構造'
+sidebar_label: 'Redux アプリの構造'
 hide_title: true
 description: 'The official Redux Essentials tutorial: learn the structure of a typical React + Redux app'
 ---
 
 import { DetailedExplanation } from '../../components/DetailedExplanation'
 
-# Redux Essentials, Part 2: Redux App Structure
+# 必修チュートリアル 2：Redux アプリの構造
 
-:::tip What You'll Learn
+:::tip この章で学ぶこと
 
-- The structure of a typical React + Redux app
-- How to view state changes in the Redux DevTools Extension
+- 典型的な React + Redux アプリの構造
+- Redux DevTools 拡張機能でステートの変化を見る方法
 
 :::
 
-## Introduction
+## はじめに
 
-In [Part 1: Redux Overview and Concepts](./part-1-overview-concepts.md), we looked at why Redux is useful, the terms and concepts used to describe different parts of Redux code, and how data flows through a Redux app.
+[必修チュートリアル 1：Redux の概要とコンセプト](./part-1-overview-concepts.md)では、Redux が何故有用なのか、Redux コード内のあちこちで使われる用語やコンセプト、そして Redux アプリ内でデータがどのように流れるのかを見てきました。
 
-Now, let's look at a real working example to see how these pieces fit together.
+では、実際に動作するサンプルを見ながら、これらの部品がどのように組み合わされるのか学んでいきましょう。
 
-## The Counter Example App
+## カウンタによるサンプル
 
-The sample project we'll look at is a small counter application that lets us add or subtract from a number as we click buttons. It may not be very exciting, but it shows all the important pieces of a React+Redux application in action.
+これから見ていくサンプルプロジェクトは、ボタンをクリックして数字を足したり引いたりできる小さなカウンタアプリです。あまりエキサイティングなものではないかもしれませんが、実際に動く React + Redux アプリケーションにおける重要な要素が入っています。
 
-The project has been created using [the official Redux template for Create-React-App](https://github.com/reduxjs/cra-template-redux). Out of the box, it has already been configured with a standard Redux application structure, using [Redux Toolkit](https://redux-toolkit.js.org) to create the Redux store and logic, and [React-Redux](https://react-redux.js.org) to connect together the Redux store and the React components.
+このプロジェクトは、[Create-React-App の公式 Redux テンプレート](https://github.com/reduxjs/cra-template-redux)を使って作成されています。標準的な Redux アプリケーションの構成が作成時点で設定されており、Redux ストアとロジックを作成するために [Redux Toolkit](https://redux-toolkit.js.org) を、Redux ストアと React コンポーネントを接続するために [React-Redux](https://react-redux.js.org) を使用しています。
 
-Here's the live version of the project. You can play around with it by clicking the buttons in the app preview on the right, and browse through the source files on the left.
+以下がプロジェクトのライブバージョンです。右側のアプリプレビューでボタンをクリックして遊んだり、左側のソースファイルを参照したりすることができます。
 
 <iframe
   class="codesandbox"
@@ -39,21 +39,21 @@ Here's the live version of the project. You can play around with it by clicking 
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
-If you'd like to try create this project on your own computer, you can [start a new Create-React-App project](https://create-react-app.dev/docs/getting-started#selecting-a-template) using our Redux template:
+このプロジェクトを自分のコンピュータで試してみたい場合は、我々の Redux テンプレートを用いて[新しい Create-React-App プロジェクトを作成](https://create-react-app.dev/docs/getting-started#selecting-a-template)できます。
 
 ```
 npx create-react-app redux-essentials-example --template redux
 ```
 
-### Using the Counter App
+### カウンタアプリを使ってみる
 
-The counter app has already been set up to let us watch what happens inside as we use it.
+このカウンタアプリは使いながら内部の様子を見られるよう、既に設定されています。
 
-Open up your browser's DevTools. Then, choose the "Redux" tab in the DevTools, and click the "State" button in the upper-right toolbar. You should see something that looks like this:
+ブラウザの DevTools を開いてください。そして、DevTools の中の「Redux」タブを選択し、右上のツールバーの「State」ボタンをクリックします。以下のようなものが表示されるはずです。
 
 ![Redux DevTools: initial app state](/img/tutorials/essentials/devtools-initial.png)
 
-On the right, we can see that our Redux store is starting off with an app state value that looks like this:
+右側を見ると、Redux ストアが以下のようなアプリのステートから始まっていることが分かります。
 
 ```js
 {
@@ -63,30 +63,30 @@ On the right, we can see that our Redux store is starting off with an app state 
 }
 ```
 
-The DevTools will show us how the store state changes as we use the app.
+DevTools を使うとアプリを使いながらステートがどのように変化しているのかを見ることができます。
 
-Let's play with the app first to see what it does. Click the "+" button in the app, then look at the "Diff" tab in the Redux DevTools:
+まずはこのツールで遊んでみて何ができるのかを見てみましょう。アプリの "+" ボタンをクリックした後に、Redux DevTools の "Diff" タブを見てください。
 
 ![Redux DevTools: first dispatched action](/img/tutorials/essentials/devtools-first-action.png)
 
-We can see two important things here:
+2 つの重要なことが見て取れます。
 
-- When we clicked the "+" button, an action with a type of `"counter/increment"` was dispatched to the store
-- When that action was dispatched, the `state.counter.value` field changed from `0` to `1`
+- "+" ボタンをクリックすると、`"counter/increment"` というタイプのアクションがストアにディスパッチされた
+- このアクションがディスパッチされると、`state.counter.value` フィールドは `0` から `1` に変化した
 
-Now try these steps:
+では以下を試してみてください：
 
-- Click the "+" button again. The displayed value should now be 2.
-- Click the "-" button once. The displayed value should now be 1.
-- Click the "Add Amount" button. The displayed value should now be 3.
-- Change the number "2" in the textbox to a "3"
-- Click the "Add Async" button. You should see a progress bar fill the button, and after a couple seconds, the displayed value should change to 6.
+- もう一度 "+" ボタンをクリックします。表示されている値が 2 になっているはずです。
+- "-" ボタンを 1 回クリックします。表示されている値が 1 になるはずです。
+- "Add Amount" ボタンをクリックします。表示されている値が 3 になります。
+- テキストボックスの数字 "2" を "3" に変更します。
+- "Add Async" ボタンをクリックします。プログレスバーがボタンに表示され、数秒後に表示される値が 6 に変わります。
 
-Go back to the Redux DevTools. You should see a total of five actions dispatched, one for each time we clicked a button . Now select the last `"counter/incrementByAmount"` entry from the list on the left, and click the "Action" tab on the right side:
+Redux DevTools に戻ってください。ボタンをクリックするたびに、合計 5 つのアクションがディスパッチされているのがわかるはずです。ここで、左側のリストから最後の `"counter/incrementByAmount"` エントリを選択し、右側の "Action" タブをクリックします。
 
 ![Redux DevTools: done clicking buttons](/img/tutorials/essentials/devtools-done-clicking.png)
 
-We can see that this action object looked like this:
+このアクションオブジェクトは以下のようなものであることが分かります：
 
 ```js
 {
@@ -95,37 +95,37 @@ We can see that this action object looked like this:
 }
 ```
 
-And if you click the "Diff" tab, you can see that the `state.counter.value` field changed from a `3` to a `6` in response to that action.
+また、「Diff」タブをクリックすると、このアクションに反応して `state.counter.value` フィールドの値が `3` から `6` に変化していることがわかります。
 
-The ability to see what is happening inside of our app and how our state is changing over time is very powerful!
+アプリの内部で何が起こっているのか、ステートが時間の経過とともにどのように変化しているのかを確認できる機能は非常に強力なものです！
 
-The DevTools have several more commands and options to help you debug your app. Try clicking the "Trace" tab in the upper right. You should see a JavaScript function stack trace in the panel, with several sections of source code showing the lines that were executing when the action reached the store. One line in particular should be highlighted: the line of code where we dispatched this action from the `<Counter>` component:
+DevTools には、アプリのデバッグに役立つコマンドやオプションがまだいくつかあります。右上の「Trace」タブをクリックしてみてください。パネルに JavaScript 関数スタックトレースが表示され、アクションがストアに到達したときに実行されていた行を示すソースコードの断片が表示されます。特に、`<Counter>` コンポーネントからこのアクションをディスパッチしたコードの行がハイライトされているはずです。
 
 ![Redux DevTools: action stack traces](/img/tutorials/essentials/devtools-action-stacktrace.png)
 
-This makes it easier to trace what part of the code dispatched a specific action.
+これによりコードのどの部分が特定のアクションをディスパッチしたのかが分かりやすくなります。
 
-## Application Contents
+## アプリケーションの中身
 
-Now that you know what the app does, let's look at how it works.
+アプリが何をするのかが分かったところで、どのように動いているのか見てみましょう。
 
-Here are the key files that make up this application:
+こちらが、このアプリケーションを構成している重要なファイルです：
 
 - `/src`
-  - `index.js`: the starting point for the app
-  - `App.js`: the top-level React component
+  - `index.js`: アプリのスタートポイント
+  - `App.js`: 最上位の React コンポーネント
   - `/app`
-    - `store.js`: creates the Redux store instance
+    - `store.js`: Redux ストアインスタンスを作成する
   - `/features`
     - `/counter`
-      - `Counter.js`: a React component that shows the UI for the counter feature
-      - `counterSlice.js`: the Redux logic for the counter feature
+      - `Counter.js`: カウンタ機能に関する UI を表示する React コンポーネント
+      - `counterSlice.js`: カウンタ機能に関する Redux ロジック
 
-Let's start by looking at how the Redux store is created.
+Redux ストアがどのように作成されているのかから見ていきます。
 
-### Creating the Redux Store
+### Redux ストアの作成
 
-Open up `app/store.js`, which should look like this:
+`app/store.js` を開いてください。中はこのようになっています：
 
 ```js title="app/store.js"
 import { configureStore } from '@reduxjs/toolkit'
@@ -138,21 +138,21 @@ export default configureStore({
 })
 ```
 
-The Redux store is created using the `configureStore` function from Redux Toolkit. `configureStore` requires that we pass in a `reducer` argument.
+Redux ストアは、Redux Toolkit の `configureStore` 関数で作成されています。`configureStore` には `reducer` 引数を渡す必要があります。
 
-Our application might be made up of many different features, and each of those features might have its own reducer function. When we call `configureStore`, we can pass in all of the different reducers in an object. The key names in the object will define the keys in our final state value.
+アプリケーションには多くの異なる機能があるかもしれず、それぞれの機能が独自のリデューサ関数を持っているかもしれません。`configureStore` を呼び出すときには、それら別々のリデューサを 1 つのオブジェクトに入れて渡すことができます。このオブジェクトのキー名は最終的なステートの値のキーになります。
 
-We have a file named `features/counter/counterSlice.js` that exports a reducer function for the counter logic. We can import that `counterReducer` function here, and include it when we create the store.
+カウンタロジック用のリデューサ関数をエクスポートしている `features/counter/counterSlice.js` という名前のファイルがあります。その `counterReducer` 関数をインポートして、ストアを作成する際に含めるようにします。
 
-When we pass in an object like `{counter: counterReducer}`, that says that we want to have a `state.counter` section of our Redux state object, and that we want the `counterReducer` function to be in charge of deciding if and how to update the `state.counter` section whenever an action is dispatched.
+`{counter: counterReducer}` のようなオブジェクトを渡すと、「Redux ステートオブジェクトに `state.counter` というセクションが必要で、`counterReducer` という関数がこの `state.counter` セクションの担当であり、アクションがディスパッチされた時にこれを更新するかどうか、更新する場合はどう更新するのかを決定する」という意味になります。
 
-Redux allows store setup to be customized with different kinds of plugins ("middleware" and "enhancers"). `configureStore` automatically adds several middleware to the store setup by default to provide a good developer experience, and also sets up the store so that the Redux DevTools Extension can inspect its contents.
+Redux では、複数の種類のプラグイン（「ミドルウェア」と「エンハンサ」）でストアのセットアップをカスタマイズすることができます。`configureStore` は、よい開発者体験を提供するために、デフォルトでストアのセットアップにいくつかのミドルウェアを自動的に追加し、Redux DevTools 拡張機能がその内容を確認できるようにストアを設定します。
 
-#### Redux Slices
+#### Redux スライス (slice)
 
-**A "slice" is a collection of Redux reducer logic and actions for a single feature in your app**, typically defined together in a single file. The name comes from splitting up the root Redux state object into multiple "slices" of state.
+**スライスとは、あるひとつの機能に対応する Redux のリデューサロジックとアクションとをひとまとめにしたもの**です。これは典型的には 1 つのファイル内でまとめて定義されます。ルートとなる Redux ステートオブジェクトを複数の「薄切り」に分割するものという意味で、このような名前がついています。
 
-For example, in a blogging app, our store setup might look like:
+例えば、ブログアプリでは、ストアの構成は以下のようになるでしょう：
 
 ```js
 import { configureStore } from '@reduxjs/toolkit'
@@ -169,13 +169,13 @@ export default configureStore({
 })
 ```
 
-In that example, `state.users`, `state.posts`, and `state.comments` are each a separate "slice" of the Redux state. Since `usersReducer` is responsible for updating the `state.users` slice, we refer to it as a "slice reducer" function.
+この例では `state.users`、`state.posts` および `state.comments` がそれぞれ、Redux ステートの別々の「スライス」になります。`usersReducer` は `state.users` の更新が責務ですので、これを「スライスリデューサ」のように呼びます。
 
-<DetailedExplanation title="Detailed Explanation: Reducers and State Structure">
+<DetailedExplanation title="詳細説明：リデューサとステートの構造">
 
-A Redux store needs to have a single "root reducer" function passed in when it's created. So if we have many different slice reducer functions, how do we get a single root reducer instead, and how does this define the contents of the Redux store state?
+Redux ストアを作る際は単一の「ルートリデューサ」関数を渡す必要があります。ではたくさんのスライスリデューサがある場合に、そこからどうやって単一のルートリデューサが得られ、それはどのように Redux ストアのステートを決めるのでしょうか。
 
-If we tried calling all of the slice reducers by hand, it might look like this:
+スライスリデューサの呼び出しを手書きしようと思ったら、このようなものになります：
 
 ```js
 function rootReducer(state = {}, action) {
@@ -187,9 +187,9 @@ function rootReducer(state = {}, action) {
 }
 ```
 
-That calls each slice reducer individually, passes in the specific slice of the Redux state, and includes each return value in the final new Redux state object.
+これは、それぞれのリデューサを個別に呼び出して Redux ステートのスライスを渡し、それぞれの戻り値を新たな Redux ステートオブジェクトにまとめて返しています。
 
-Redux has a function called [`combineReducers`](../../api/combineReducers.md) that does this for us automatically. It accepts an object full of slice reducers as its argument, and returns a function that calls each slice reducer whenever an action is dispatched. The result from each slice reducer are all combined together into a single object as the final result. We can do the same thing as the previous example using `combineReducers`:
+Redux にはこれを自動的に行う [`combineReducers`](../../api/combineReducers.md) という関数があります。スライスリデューサが含まれたオブジェクトを引数にとり、アクションがディスパッチされた時にスライスリデューサをそれぞれ呼び出すような関数を返します。それぞれのスライスリデューサからの戻り値は、1 つのオブジェクトにまとめられて最終結果になります。前述の例は `combineReducers` を使っても同様に行えます：
 
 ```js
 const rootReducer = combineReducers({
@@ -199,9 +199,9 @@ const rootReducer = combineReducers({
 })
 ```
 
-When we pass an object of slice reducers to `configureStore`, it passes those to `combineReducers` for us to generate the root reducer.
+`configureStore` にスライスリデューサの含まれたオブジェクトを渡す場合、この関数はそれを `combineReducers` に渡してルートリデューサを生成します。
 
-As we saw earlier, you can also pass a reducer function directly as the `reducer` argument:
+以前見たように、`reducer` 引数にはリデューサ関数を直接渡すこともできます：
 
 ```js
 const store = configureStore({
@@ -211,9 +211,9 @@ const store = configureStore({
 
 </DetailedExplanation>
 
-### Creating Slice Reducers and Actions
+### スライスリデューサとアクションの作成
 
-Since we know that the `counterReducer` function is coming from `features/counter/counterSlice.js`, let's see what's in that file, piece by piece.
+`counterReducer` 関数は `features/counter/counterSlice.js` ファイルにあるということが分かっていますので、そのファイルに何があるのか、ひとつひとつ見てみましょう。
 
 ```js title="features/counter/counterSlice.js"
 import { createSlice } from '@reduxjs/toolkit'
@@ -245,30 +245,30 @@ export const { increment, decrement, incrementByAmount } = counterSlice.actions
 export default counterSlice.reducer
 ```
 
-Earlier, we saw that clicking the different buttons in the UI dispatched three different Redux action types:
+さきほど、UI 上の各ボタンをクリックすることで 3 種類の Redux アクションタイプがディスパッチされることを確認しました：
 
 - `{type: "counter/increment"}`
 - `{type: "counter/decrement"}`
 - `{type: "counter/incrementByAmount"}`
 
-We know that actions are plain objects with a `type` field, that the `type` field is always a string, and that we typically have "action creator" functions that create and return the action objects. So where are those action objects, type strings, and action creators defined?
+既に我々は、アクションとは `type` フィールドを有するプレーンなオブジェクトであり、`type` は必ず文字列型であり、通常は「アクションクリエータ」関数を作ってアクションオブジェクトを作成して返すようにする、ということを知っています。ではこれらのアクションオブジェクトや type 文字列やアクションクリエータは、どのように定義されるのでしょう？
 
-We _could_ write those all by hand, every time. But, that would be tedious. Besides, what's _really_ important in Redux is the reducer functions, and the logic they have for calculating new state.
+これらは毎回手で書いても*構いません*。しかしこれは大変です。それに Redux にとって*本当に*重要なのはリデューサ関数であり、そこにある新しいステートを計算するためのロジックです。
 
-Redux Toolkit has a function called `createSlice`, which takes care of the work of generating action type strings, action creator functions, and action objects. All you have to do is define a name for this slice, write an object that has some reducer functions in it, and it generates the corresponding action code automatically. The string from the `name` option is used as the first part of each action type, and the key name of each reducer function is used as the second part. So, the `"counter"` name + the `"increment"` reducer function generated an action type of `{type: "counter/increment"}`. (After all, why write this by hand if the computer can do it for us!)
+Redux Toolkit には `createSlice` という関数があり、アクションのタイプ文字列、アクションクリエータ関数、そしてアクションオブジェクトの作成について面倒を見てくれます。スライスに名前を付けて、リデューサ関数の含まれたオブジェクトを書くだけで、対応するアクションのコードを自動的に作成してくれます。それぞれのアクションタイプの前半部分には `name` オプションの文字列が使われ、後半部分には各リデューサ関数のキー名が使われます。従って、`"counter"` という name と `"increment"` というリデューサ関数名から `{type: "counter/increment"}` というアクションタイプが作成されました。（まあコンピュータがこれをやれるんだったら手書きをする理由はないですよね！）
 
-In addition to the `name` field, `createSlice` needs us to pass in the initial state value for the reducers, so that there is a `state` the first time it gets called. In this case, we're providing an object with a `value` field that starts off at 0.
+`name` フィールドに加え、`createSilce` にはリデューサが初めて呼ばれる際に `state` が存在するよう、初期ステートを渡す必要があります。今回のケースでは、0 から始まる `value` フィールドを持ったオブジェクトを渡しています。
 
-We can see here that there are three reducer functions, and that corresponds to the three different action types that were dispatched by clicking the different buttons.
+ここでは 3 つのリデューサ関数があり、それらが 3 つのボタンをクリックした際にディスパッチされるそれぞれのアクションタイプに対応しているということが分かります。
 
-`createSlice` automatically generates action creators with the same names as the reducer functions we wrote. We can check that by calling one of them and seeing what it returns:
+`createSlice` は、我々が書いたリデューサ関数と同名のアクションクリエータを自動的に作成します。このことは、作成されたものをコールして何が返ってくるか見てみることで確認できます。
 
 ```js
 console.log(counterSlice.actions.increment())
 // {type: "counter/increment"}
 ```
 
-It also generates the slice reducer function that knows how to respond to all these action types:
+また、これらの全アクションタイプにどう対応すべきか知っている、スライスリデューサも作成されます：
 
 ```js
 const newState = counterSlice.reducer(
@@ -279,28 +279,28 @@ console.log(newState)
 // {value: 11}
 ```
 
-### Rules of Reducers
+### リデューサのルール
 
-We said earlier that reducers must **always** follow some special rules:
+以前、リデューサは**常に**以下の特別なルールに従わなければならないと言いました：
 
-- They should only calculate the new state value based on the `state` and `action` arguments
-- They are not allowed to modify the existing `state`. Instead, they must make _immutable updates_, by copying the existing `state` and making changes to the copied values.
-- They must not do any asynchronous logic or other "side effects"
+- `state` と `action` 引数に基づいて新しいステートを計算する以外のことをしてはいけない。
+- 既存の `state` を書き換えてはいけない。代わりに既存の `state` をコピーし、コピーに変更を加えるという、*イミュータブルな更新*を行わなければならない。
+- 非同期なロジックを実行したり、その他「副作用 (side effect)」を引き起こしてはいけない。
 
-But why are these rules important? There's a few different reasons:
+これらのルールはなぜ重要なのでしょうか。理由はいくつかあります：
 
-- One of the goals of Redux is to make your code predictable. When a function's output is only calculated from the input arguments, it's easier to understand how that code works, and to test it.
-- On the other hand, if a function depends on variables outside itself, or behaves randomly, you never know what will happen when you run it.
-- If a function modifies other values, including its arguments, that can change the way the application works unexpectedly. This can be a common source of bugs, such as "I updated my state, but now my UI isn't updating when it should!"
-- Some of the Redux DevTools capabilities depend on having your reducers follow these rules correctly
+- Redux の目的のひとつは、コードを予測可能にすることです。関数の出力が入力である引数のみから計算されるのであれば、どのように動いているのか理解しやすくなり、テストもしやすくなります。
+- 一方で関数が外部にある変数に依存している場合やランダムに動作する場合、実行した場合に何が起こるのかが分からなくなります。
+- 関数が（それ自体に渡された引数も含む）ほかの値を変更する場合、予想外の形でアプリケーションの挙動が変わってしまうことがあります。これは「ステートを更新したのに UI が変わらない！」のようなよくあるバグの原因となります。
+- Redux DevTools の機能のうちいくつかは、リデューサがこれらのルールに正しく従っているということに依存しています。
 
-The rule about "immutable updates" is particularly important, and worth talking about further.
+特に「イミュータブルな更新」に関するルールは重要なので、ここでより詳しく述べておくべきでしょう。
 
-### Reducers and Immutable Updates
+### リデューサとイミュータブルな更新
 
-Earlier, we talked about "mutation" (modifying existing object/array values) and "immutability" (treating values as something that cannot be changed).
+以前「ミューテーション」（既存のオブジェクトや配列の中身を書き換えること）と「イミュータビリティ」（値を不変のものとして扱うこと）について説明しました。
 
-In Redux, **our reducers are _never_ allowed to mutate the original / current state values!**
+Redux において、**リデューサは*絶対に*元の（あるいは現在の）ステートの値を書き換えてはいけません！**
 
 ```js
 // ❌ Illegal - don't do this in a normal reducer!
@@ -309,19 +309,19 @@ state.value = 123
 
 :::
 
-There are several reasons why you must not mutate state in Redux:
+Redux でステートを書き換えてはいけない理由はいくつかあります：
 
-- It causes bugs, such as the UI not updating properly to show the latest values
-- It makes it harder to understand why and how the state has been updated
-- It makes it harder to write tests
-- It breaks the ability to use "time-travel debugging" correctly
-- It goes against the intended spirit and usage patterns for Redux
+- UI が最新の値を表示するよう更新されないといったバグを引き起こす
+- ステートがなぜどのように更新されたのか理解しづらくなる
+- テストが書きづらくなる
+- 「タイムトラベルデバッギング」が正しく動作しなくなる
+- なんにせよ Redux の精神と利用パターンに違反している
 
-So if we can't change the originals, how do we return an updated state?
+オリジナルのステートを書き換えられないなら、どのようにして更新されたステートを返すのでしょうか？
 
 :::tip
 
-**Reducers can only make _copies_ of the original values, and then they can mutate the copies.**
+**リデューサは元の値の*コピー*を作成することしかできず、逆にそのコピーに対しては書き換えを行えます。**
 
 ```js
 // ✅ This is safe, because we made a copy
@@ -333,15 +333,15 @@ return {
 
 :::
 
-We already saw that we can [write immutable updates by hand](./part-1-overview-concepts.md#immutability), by using JavaScript's array / object spread operators and other functions that return copies of the original values. However, if you're thinking that "writing immutable updates by hand this way looks hard to remember and do correctly"... yeah, you're right! :)
+JavaScript の配列/オブジェクトスプレッド構文や元の値のコピーを返す関数を使えば、[イミュータブルな更新を手書きで書く](./part-1-overview-concepts.md#immutability)ことができることはすでに見てきました。しかし、「この方法でイミュータブルな更新を手書きで書くのは、覚えるのが大変そうだし、正しくやるのも大変そう」と思っているなら...はい、全くその通りです :)
 
-Writing immutable update logic by hand _is_ hard, and accidentally mutating state in reducers is the single most common mistake Redux users make.
+イミュータブルな更新ロジックを手書きで書くのは*確かに*難しく、リデューサ内でステートを書き換えてしまうことは Redux ユーザがやってしまう最もよくあるミスです。
 
-**That's why Redux Toolkit's `createSlice` function lets you write immutable updates an easier way!**
+**そしてこれこそが、Redux Toolkit の `createSlice` 関数を使えばイミュータブルな更新をより簡単に書けるようになっている理由です！**
 
-`createSlice` uses a library called [Immer](https://immerjs.github.io/immer/docs/introduction) inside. Immer uses a special JS tool called a `Proxy` to wrap the data you provide, and lets you write code that "mutates" that wrapped data. But, **Immer tracks all the changes you've tried to make, and then uses that list of changes to return a safely immutably updated value**, as if you'd written all the immutable update logic by hand.
+`createSlice` は、内部で [Immer](https://immerjs.github.io/immer/docs/introduction) というライブラリを使用しています。Immer は `Proxy` と呼ばれる特別な JS ツールを使ってあなたのデータをラップし、ラップされたデータを「書き換え」るようなコードを書けるようにしてくれます。しかし、**Immer はあなたが行ったすべての変更を追跡し、その変更のリストを使って安全にイミュータブルに更新された値**を返し、まるで自分でイミュータブルな更新のロジックを手書きしたかのようにしてくれるのです。
 
-So, instead of this:
+なので、こう書く代わりに：
 
 ```js
 function handwrittenReducer(state, action) {
@@ -361,7 +361,7 @@ function handwrittenReducer(state, action) {
 }
 ```
 
-You can write code that looks like this:
+このようなコードを書くことができます：
 
 ```js
 function reducerWithImmer(state, action) {
@@ -369,17 +369,17 @@ function reducerWithImmer(state, action) {
 }
 ```
 
-That's a lot easier to read!
+これはずっと読みやすいですね！
 
-But, here's something _very_ important to remember:
+しかし以下のことは*非常に*重要ですので覚えておいてください：
 
 :::warning
 
-**You can _only_ write "mutating" logic in Redux Toolkit's `createSlice` and `createReducer` because they use Immer inside! If you write mutating logic in reducers without Immer, it _will_ mutate the state and cause bugs!**
+**Redux Toolkit の `createSlice` と `createReducer` では内部で Immer を使用しているため、「ミューテート的な」ロジックを書くことができます。Immer を使用していないリデューサでミューテートを伴うロジックを書くと、ステートの書き換えが*本当に*生じてバグが発生します！**
 
 :::
 
-With that in mind, let's go back and look at the actual reducers from the counter slice.
+これを念頭に置いて、カウンタスライスの実際のリデューサに戻って確認してみましょう。
 
 ```js title="features/counter/counterSlice.js"
 export const counterSlice = createSlice({
@@ -406,28 +406,28 @@ export const counterSlice = createSlice({
 })
 ```
 
-We can see that the `increment` reducer will always add 1 to `state.value`. Because Immer knows we've made changes to the draft `state` object, we don't have to actually return anything here. In the same way, the `decrement` reducer subtracts 1.
+`increment` リデューサは `state.value` に常に 1 を加算することがわかります。ドラフトである `state` オブジェクトに変更が加わったことが Immer には分かるので、ここで実際に何かを返す必要はありません。同様に、`decrement` リデューサは 1 を減算します。
 
-In both of those reducers, we don't actually need to have our code look at the `action` object. It will be passed in anyway, but since we don't need it, we can skip declaring `action` as a parameter for the reducers.
+どちらのリデューサでも、コードが `action` オブジェクトを見る必要はありません。オブジェクトは何にせよ渡されますが、必要ないので、`action` をリデューサのパラメータとして宣言しないで構いません。
 
-On the other hand, the `incrementByAmount` reducer _does_ need to know something: how much it should be adding to the counter value. So, we declare the reducer as having both `state` and `action` arguments. In this case, we know that the amount we typed into the textbox is being put into the `action.payload` field, so we can add that to `state.value`.
+一方、`incrementByAmount` リデューサは、カウンタの値にいくら加算すべきかを知る必要があります。そこで、リデューサを `state` と `action` の両方の引数を持つ形で宣言します。今回は、テキストボックスに入力した値が `action.payload` フィールドに入力されることがわかっているので、それを `state.value` に加算できます。
 
-:::info Want to Know More?
+:::info もっと知りたい場合
 
-For more information on immutability and writing immutable updates, see [the "Immutable Update Patterns" docs page](../../recipes/structuring-reducers/ImmutableUpdatePatterns.md) and [The Complete Guide to Immutability in React and Redux](https://daveceddia.com/react-redux-immutability-guide/).
+イミュータビリティとイミュータブルな更新についての詳細は、["Immutable Update Patterns" ドキュメント](../../recipes/structuring-reducers/ImmutableUpdatePatterns.md)と [The Complete Guide to Immutability in React and Redux](https://daveceddia.com/react-redux-immutability-guide/) を参照してください。
 
 :::
 
-### Writing Async Logic with Thunks
+### 非同期なロジックを thunk で記述する
 
-So far, all the logic in our application has been synchronous. Actions are dispatched, the store runs the reducers and calculates the new state, and the dispatch function finishes. But, the JavaScript language has many ways to write code that is asynchronous, and our apps normally have async logic for things like fetching data from an API. We need a place to put that async logic in our Redux apps.
+これまでのところ、私たちのアプリケーションのすべてのロジックは同期的でした。アクションがディスパッチされ、ストアがリデューサを実行して新しいステートを計算し、ディスパッチ関数が終了します。しかし、JavaScript 言語には非同期のコードを書くための様々な方法があり、我々のアプリにも通常は API からのデータフェッチなどの非同期なロジックがあります。Redux アプリの中に非同期ロジックを置く場所が必要です。
 
-A **thunk** is a specific kind of Redux function that can contain asynchronous logic. Thunks are written using two functions:
+**Thunk** とは、非同期ロジックを含むことができる、ある種の Redux 関数のことです。Thunk は 2 つの関数を組み合わせて書きます：
 
-- An inside thunk function, which gets `dispatch` and `getState` as arguments
-- The outside creator function, which creates and returns the thunk function
+- `dispatch` と `getState` を引数で受け取る内側の thunk 関数
+- thunk 関数を作成して返す外側のクリエータ関数
 
-The next function that's exported from `counterSlice` is an example of a thunk action creator:
+以下で `counterSlice` からエクスポートしている関数が、thunk 型アクションクリエータの例です。
 
 ```js title="features/counter/counterSlice.js"
 // The function below is called a thunk and allows us to perform async logic.
@@ -441,15 +441,15 @@ export const incrementAsync = amount => dispatch => {
 }
 ```
 
-We can use them the same way we use a typical Redux action creator:
+これは普通の Redux アクションクリエータと同じように使えます：
 
 ```js
 store.dispatch(incrementAsync(5))
 ```
 
-However, using thunks requires that the `redux-thunk` _middleware_ (a type of plugin for Redux) be added to the Redux store when it's created. Fortunately, Redux Toolkit's `configureStore` function already sets that up for us automatically, so we can go ahead and use thunks here.
+ただし thunk を使用するには、ストアを作成する際に `redux-thunk` _ミドルウェア_（Redux 用のプラグインの一種）をストアに追加する必要があります。幸い、Redux Toolkit の `configureStore` 関数はこれを既に自動的に設定してくれていますので、このまま thunk を使うことができます。
 
-When you need to make AJAX calls to fetch data from the server, you can put that call in a thunk. Here's an example that's written a bit longer, so you can see how it's defined:
+サーバからデータを取得するために AJAX コールを行う必要がある場合、そのコールを thunk の中に置くことができます。ここに少し長めに書いた例がありますので、どのように定義されているか見てください：
 
 ```js title="features/counter/counterSlice.js"
 // the outside "thunk creator" function
@@ -468,13 +468,13 @@ const fetchUserById = userId => {
 }
 ```
 
-We'll see thunks being used in [Part 5: Async Logic and Data Fetching](./part-5-async-logic.md)
+thunk の使われかたは[パート 5: Async Logic and Data Fetching](./part-5-async-logic.md) で見ていきます。
 
-<DetailedExplanation title="Detailed Explanation: Thunks and Async Logic">
+<DetailedExplanation title="詳細：thunk と非同期ロジック">
 
-We know that we're not allowed to put any kind of async logic in reducers. But, that logic has to live somewhere.
+リデューサに非同期ロジックを入れてはいけないことはご存じですね。しかし、その非同期なロジックはどこかには存在する必要があります。
 
-If we have access to the Redux store, we could write some async code and call `store.dispatch()` when we're done:
+Redux ストアにアクセスできるのであれば、何か非同期コードを書いて、終わったときに `store.dispatch()` を呼び出すことができるでしょう。
 
 ```js
 const store = configureStore({ reducer: counterReducer })
@@ -484,13 +484,13 @@ setTimeout(() => {
 }, 250)
 ```
 
-But, in a real Redux app, we're not allowed to import the store into other files, especially in our React components, because it makes that code harder to test and reuse.
+しかし、実際の Redux アプリでは、他のファイル、特に React コンポーネントにストアをインポートすることはできません。それをするとコードはテストや再利用が難しくなってしまいます。
 
-In addition, we often need to write some async logic that we know will be used with _some_ store, eventually, but we don't know _which_ store.
+さらに、*何らかの*ストアで使われるが*どの*ストアで使われるのか分からない状態で非同期ロジックを書かないといけないこともあります。
 
-The Redux store can be extended with "middleware", which are a kind of add-on or plugin that can add extra abilities. The most common reason to use middleware is to let you write code that can have async logic, but still talk to the store at the same time. They can also modify the store so that we can call `dispatch()` and pass in values that are _not_ plain action objects, like functions or Promises.
+Redux ストアは「ミドルウェア」を使って拡張することができます。これは機能を追加できるアドオンやプラグインのようなものです。ミドルウェアを使う最も一般的な理由は、非同期ロジックを持ちつつ同時にストアと通信できるコードを書けるようにするためです。それらはストアの挙動を変更し、`dispatch()` をコールした時に関数や Promise のようなプレーンなアクションオブジェクト*ではない*値を渡せるようにもできます。
 
-The Redux Thunk middleware modifies the store to let you pass functions into `dispatch`. In fact, it's short enough we can paste it here:
+Redux Thunk ミドルウェアは、ストアの挙動を変更して `dispatch` に関数を渡せるようにします。実際に、そのためのコードはここに全部ペーストできるほどに短いものです：
 
 ```js
 const thunkMiddleware = ({ dispatch, getState }) => next => action => {
@@ -502,25 +502,25 @@ const thunkMiddleware = ({ dispatch, getState }) => next => action => {
 }
 ```
 
-It looks to see if the "action" that was passed into `dispatch` is actually a function instead of a plain action object. If it's actually a function, it calls the function, and returns the result. Otherwise, since this must be an action object, it passes the action forward to the store.
+このミドルウェアは、`dispatch` に渡された「アクション」が実際にはプレーンなアクションオブジェクトではなく関数であるかどうかを判定します。関数だった場合はその関数をコールしてその結果を返します。そうでない場合、普通のアクションオブジェクトなのでストアにそのまま送り届けます。
 
-This gives us a way to write whatever sync or async code we want, while still having access to `dispatch` and `getState`.
+これにより、`dispatch` や `getState` へのアクセスを保ったままで、同期的なコードでも非同期的なコードでも好きなものを書くことができるようになります。
 
 </DetailedExplanation>
 
-There's one more function in this file, but we'll talk about that in a minute when we look at the `<Counter>` UI component.
+このファイルにはもうひとつ関数がありますが、これについてはすぐ後で `<Counter>` UI コンポーネントを見るときにお話しします。
 
-:::info Want to Know More?
+:::info もっと知りたい場合
 
-See [the Redux Thunk docs](https://github.com/reduxjs/redux-thunk), the post [What the heck is a thunk?](https://daveceddia.com/what-is-a-thunk/) and the [Redux FAQ entry on "why do we use middleware for async?"](../../faq/Actions.md#how-can-i-represent-side-effects-such-as-ajax-calls-why-do-we-need-things-like-action-creators-thunks-and-middleware-to-do-async-behavior) for more information.
+詳しい情報は [Redux Thunk ドキュメント](https://github.com/reduxjs/redux-thunk)、ブログ記事 [What the heck is a thunk?](https://daveceddia.com/what-is-a-thunk/)、および [Redux FAQ の "why do we use middleware for async?"](../../faq/Actions.md#how-can-i-represent-side-effects-such-as-ajax-calls-why-do-we-need-things-like-action-creators-thunks-and-middleware-to-do-async-behavior) を参照してください。
 
 :::
 
-### The React Counter Component
+### React の Counter コンポーネント
 
-Earlier, we saw what a standalone React `<Counter>` component looks like. Our React+Redux app has a similar `<Counter>` component, but it does a few things differently.
+以前、React 単体での `<Counter>` コンポーネントがどのようなものかは見ました。我々の React + Redux アプリにも `<Counter>` コンポーネントがありますが、幾つかの動作が異なっています。
 
-We'll start by looking at the `Counter.js` component file:
+まずは `Counter.js` コンポーネントファイルを見てみましょう：
 
 ```jsx title="features/counter/Counter.js"
 import React, { useState } from 'react'
@@ -566,21 +566,21 @@ export function Counter() {
 }
 ```
 
-Like with the earlier plain React example, we have a function component called `Counter`, that stores some data in a `useState` hook.
+以前のプレーンな React での例と同様、`Counter` という名前の関数コンポーネントがあり、`useState` フックに何かのデータを保持しています。
 
-However, in our component, it doesn't look like we're storing the actual current counter value as state. There _is_ a variable called `count`, but it's not coming from a `useState` hook.
+でもこのコンポーネントでは、カウンタの現在値をステートとして保持していないように見えますね。`count` という名前の変数自体はありますが、それは `useStete` フックからは来ていないようです。
 
-While React includes several built-in hooks like `useState` and `useEffect`, other libraries can create their own [custom hooks](https://reactjs.org/docs/hooks-custom.html) that use React's hooks to build custom logic.
+React には `useState` や `useEffect` のような組み込みフックが幾つかありますが、他のライブラリも React のフックを使ってカスタムロジックを組み立てる[カスタムフック](https://reactjs.org/docs/hooks-custom.html)を作成することができます。
 
-The [React-Redux library](https://react-redux.js.org/) has [a set of custom hooks that allow your React component to interact with a Redux store](https://react-redux.js.org/api/hooks).
+[React-Redux ライブラリ](https://react-redux.js.org/)には、[React コンポーネントが Redux ストアとやりとりできるようにするためのカスタムフックが幾つかあります](https://react-redux.js.org/api/hooks)。
 
-#### Reading Data with `useSelector`
+#### `useSelector` でデータを読み取る
 
-First, the `useSelector` hook lets our component extract whatever pieces of data it needs from the Redux store state.
+まず `useSelector` フックですが、これはコンポーネントが Redux ストア内のステートからデータの任意の一部分を取り出せるようにしてくれるものです。
 
-Earlier, we saw that we can write "selector" functions, which take `state` as an argument and return some part of the state value.
+以前、`state` を引数として受け取ってステート値の一部分を返す「セレクタ」関数というものを書けるという話をしました。
 
-Our `counterSlice.js` has this selector function at the bottom:
+`counterSlice.js` の下の方に、このセレクタ関数が書かれています：
 
 ```js  title="features/counter/counterSlice.js"
 // The function below is called a selector and allows us to select a value from
@@ -589,7 +589,7 @@ Our `counterSlice.js` has this selector function at the bottom:
 export const selectCount = state => state.counter.value
 ```
 
-If we had access to a Redux store, we could retrieve the current counter value as:
+もし Redux ストアにアクセス可能な状態であれば、カウンタの現在値は以下のように取得できるところです：
 
 ```js
 const count = selectCount(store.getState())
@@ -597,33 +597,33 @@ console.log(count)
 // 0
 ```
 
-Our components can't talk to the Redux store directly, because we're not allowed to import it into component files. But, `useSelector` takes care of talking to the Redux store behind the scenes for us. If we pass in a selector function, it calls `someSelector(store.getState())` for us, and returns the result.
+Redux ストアをコンポーネントファイルにインポートしてはならないため、我々のコンポーネントは Redux ストアと直接やりとりすることはできません。しかし `useSelector` は、我々の代わりに裏で Redux ストアとやりとりしてくれます。セレクタ関数を渡せば、`someSelector(store.getState())` を呼んで、その結果を返してくれるのです。
 
-So, we can get the current store counter value by doing:
+従って、現在のストア内のカウンタの値は以下のようにして取得できます：
 
 ```js
 const count = useSelector(selectCount)
 ```
 
-We don't have to _only_ use selectors that have already been exported, either. For example, we could write a selector function as an inline argument to `useSelector`:
+どこかからエクスポート済みのセレクタ*しか*使えないというわけでもありません。例えば `useSelector` の引数としてインラインでセレクタ関数を書くこともできます：
 
 ```js
 const countPlusTwo = useSelector(state => state.counter.value + 2)
 ```
 
-Any time an action has been dispatched and the Redux store has been updated, `useSelector` will re-run our selector function. If the selector returns a different value than last time, `useSelector` will make sure our component re-renders with the new value.
+アクションがディスパッチされ Redux ストアが更新されると常に `useSelector` がセレクタ関数を再実行します。もしセレクタが前回と異なる値を返した場合、`useSelector` はコンポーネントが新しい値で確実に再レンダーされるようにします。
 
-#### Dispatching Actions with `useDispatch`
+#### `useDispatch` でアクションをディスパッチする
 
-Similarly, we know that if we had access to a Redux store, we could dispatch actions using action creators, like `store.dispatch(increment())`. Since we don't have access to the store itself, we need some way to have access to just the `dispatch` method.
+同様に、もしも Redux ストアにアクセスできれば、`store.dispatch(increment())` のようにアクションクリエータを使ってアクションをディスパッチできます。我々は今ストア自体にアクセスできないので、`dispatch` メソッドだけにアクセスできる何らかの方法が必要です。
 
-The `useDispatch` hook does that for us, and gives us the actual `dispatch` method from the Redux store:
+`useDispatch` フックがそれを行います。Redux ストアから実物の `dispatch` メソッドを渡してくれます。
 
 ```js
 const dispatch = useDispatch()
 ```
 
-From there, we can dispatch actions when the user does something like clicking on a button:
+これがあれば、ユーザがボタンをクリックするなど、何かを行った時にアクションをディスパッチできます：
 
 ```jsx  title="features/counter/Counter.js"
 <button
@@ -635,13 +635,13 @@ From there, we can dispatch actions when the user does something like clicking o
 </button>
 ```
 
-### Component State and Forms
+### コンポーネントステートとフォーム
 
-By now you might be wondering, "Do I always have to put all my app's state into the Redux store?"
+ここまで読んで、「アプリのステートは常に全部 Redux ストアに入れないといけないのか？」と疑問に思っているかもしれません。
 
-The answer is **NO. Global state that is needed across the app should go in the Redux store. State that's only needed in one place should be kept in component state.**
+答えは **NO** です。**アプリ全体で必要となるようなグローバルなステートは Redux ストアに入れるべきです。が、1 箇所だけで必要となるようなステートはコンポーネントの state に保持しておくべきです**。
 
-In this example, we have an input textbox where the user can type in the next number to be added to the counter:
+以下の例には、カウンタの次の値として加算すべき数値をタイプできるテキスト入力ボックスがあります。
 
 ```jsx title="features/counter/Counter.js"
 const [incrementAmount, setIncrementAmount] = useState('2')
@@ -671,32 +671,32 @@ return (
 )
 ```
 
-We _could_ keep the current number string in the Redux store, by dispatching an action in the input's `onChange` handler and keeping it in our reducer. But, that doesn't give us any benefit. The only place that text string is used is here, in the `<Counter>` component. (Sure, there's only one other component in this example: `<App>`. But even if we had a larger application with many components, only `<Counter>` cares about this input value.)
+この数値を表す文字列の現在値を Redux ストアに入れ、テキストボックスの `onChange` ハンドラでアクションをディスパッチしてリデューサで管理すること*も*、確かに可能です。しかし、そうする利点は何もありません。このテキスト文字列が使われるのはここだけ、この `<Counter>` コンポーネントの中だけなのです。（まあ今回の例では他に `<App>` しかコンポーネントがないのですが。それでも、アプリが大きくなって多くのコンポーネントができても、この入力値を気にするのは `<Counter>` コンポーネントだけです。）
 
-So, it makes sense to keep that value in a `useState` hook here in the `<Counter>` component.
+ですから、この値は `<Counter>` コンポーネントの `useState` フック内で保持しておくのが理にかなっています。
 
-Similarly, if we had a boolean flag called `isDropdownOpen`, no other components in the app would care about that - it should really stay local to this component.
+同様に、`isDropdownOpen` のような真偽値のフラグがある場合、アプリ内の他のコンポーネントがそれを気にすることはないのですから、コンポーネントのローカルに留めておくべきです。
 
-**In a React + Redux app, your global state should go in the Redux store, and your local state should stay in React components.**
+**React + Redux アプリでは、グローバルなステートは Redux ストアに書き、ローカルなステートは React コンポーネント内に留めるべきです。**
 
-If you're not sure where to put something, here are some common rules of thumb for determining what kind of data should be put into Redux:
+どこにデータを置くべきか分からない場合、どのようなデータを Redux に入れるかに決めるにあたって以下のようないくつかの経験則があります：
 
-- Do other parts of the application care about this data?
-- Do you need to be able to create further derived data based on this original data?
-- Is the same data being used to drive multiple components?
-- Is there value to you in being able to restore this state to a given point in time (ie, time travel debugging)?
-- Do you want to cache the data (ie, use what's in state if it's already there instead of re-requesting it)?
-- Do you want to keep this data consistent while hot-reloading UI components (which may lose their internal state when swapped)?
+- アプリケーションの他の部分でこのデータを気にすることがあるか？
+- この元データから派生的に別のデータを作成できる必要があるか？
+- この同一データを、複数のコンポーネントを動かすために使うか？
+- このステートをある特定の時点に戻せるということ（タイムトラベルデバッギング）に価値があるか？
+- このデータをキャッシュする（つまり既にステート内にある場合は再リクエストせずにそちらを使う）必要があるか？
+- UI コンポーネントのホットリローディングの際にもこのデータを保持しておきたいか？（コンポーネントが入れ替わると内部 state は失われる可能性がある）
 
-This is also a good example of how to think about forms in Redux in general. **Most form state probably shouldn't be kept in Redux.** Instead, keep the data in your form components as you're editing it, and then dispatch Redux actions to update the store when the user is done.
+また、これは Redux におけるフォームについての一般的な考え方を示す良い例ともなっています。**フォームのステートのほとんどは、おそらく Redux に入れる必要がありません。**代わりに、ユーザが編集している間はデータをフォームコンポーネントに入れるようにし、ユーザの編集が終わったときに Redux のアクションをディスパッチしてストアをアップデートするようにしてください。
 
-One other thing to note before we move on: remember that `incrementAsync` thunk from `counterSlice.js`? We're using it here in this component. Notice that we use it the same way we dispatch the other normal action creators. This component doesn't care whether we're dispatching a normal action or starting some async logic. It only knows that when you click that button, it dispatches something.
+先に進む前にもう一点。`counterSlice.js` の `incrementAsync` について覚えていますか？ それをこのコンポーネントで使っていますが、他の普通のアクションクリエータと同じように使っている、ということに気をつけてください。このコンポーネントは、普通のアクションをディスパッチしているのか、何か非同期なロジックを開始しようとしているのかを気にしません。ボタンがクリックされると何かをディスパッチするということを知っているだけなのです。
 
-### Providing the Store
+### ツリーへのストアの公開
 
-We've seen that our components can use the `useSelector` and `useDispatch` hooks to talk to the Redux store. But, since we didn't import the store, how do those hooks know what Redux store to talk to?
+コンポーネントが `useSelector` と `useDispatch` フックを使って Redux ストアとやり取りできることはわかりました。しかし、ストアをインポートしていないのに、これらのフックはどの Redux ストアとやりとりするのか、どうやって知るのでしょうか？
 
-Now that we've seen all the different pieces of this application, it's time to circle back to the starting point of this application and see how the last pieces of the puzzle fit together.
+ここまでこのアプリの様々な部品のすべてを見てきましたが、このアプリケーションの開始地点に戻って、パズルの最後のピースがどのようにはまるのかを見てみましょう。
 
 ```jsx  title="index.js"
 import React from 'react'
@@ -718,40 +718,40 @@ ReactDOM.render(
 )
 ```
 
-We always have to call `ReactDOM.render(<App />)` to tell React to start rendering our root `<App>` component. In order for our hooks like `useSelector` to work right, we need to use a component called `<Provider>` to pass down the Redux store behind the scenes so they can access it.
+`ReactDOM.render(<App />)` を呼び出して React に `<App>` をレンダーし始めるよう伝える部分は、常にやることです。`useSelector` のようなフックが正しく動作するためには、`<Provider>` というコンポーネントを使って Redux ストアを裏側で渡しておき、フックで使えるようにする必要があります。
 
-We already created our store in `app/store.js`, so we can import it here. Then, we put our `<Provider>` component around the whole `<App>`, and pass in the store: `<Provider store={store}>`.
+ストアは `app/store.js` で既に作っていますので、それをインポートします。それから `<Provider>` を `<App>` の周りに配置して、ストアをこのようにして渡します：`<Provider store={store}>`
 
-Now, any React components that call `useSelector` or `useDispatch` will be talking to the Redux store we gave to the `<Provider>`.
+これで、`useSelector` や `useDispatch` を呼び出す React コンポーネントは、`<Provider>` に与えた Redux ストアとやりとりするようになります。
 
-## What You've Learned
+## 学んだこと
 
-Even though the counter example app is pretty small, it showed all the key pieces of a React + Redux app working together. Here's what we covered:
+このカウンタアプリは非常に小さなものですが、React + Redux アプリが統合して動作するための鍵となるピースを全て示しています。以下のようなことを学びました。
 
 :::tip Summary
 
-- **We can create a Redux store using the Redux Toolkit `configureStore` API**
-  - `configureStore` accepts a `reducer` function as a named argument
-  - `configureStore` automatically sets up the store with good default settings
-- **Redux logic is typically organized into files called "slices"**
-  - A "slice" contains the reducer logic and actions related to a specific feature / section of the Redux state
-  - Redux Toolkit's `createSlice` API generates action creators and action types for each individual reducer function you provide
-- **Redux reducers must follow specific rules**
-  - Should only calculate a new state value based on the `state` and `action` arguments
-  - Must make _immutable updates_ by copying the existing state
-  - Cannot contain any asynchronous logic or other "side effects"
-  - Redux Toolkit's `createSlice` API uses Immer to allow "mutating" immutable updates
-- **Async logic is typically written in special functions called "thunks"**
-  - Thunks receive `dispatch` and `getState` as arguments
-  - Redux Toolkit enables the `redux-thunk` middleware by default
-- **React-Redux allows React components to interact with a Redux store**
-  - Wrapping the app with `<Provider store={store}>` enables all components to use the store
-  - Global state should go in the Redux store, local state should stay in React components
+- **Redux store は Redux Toolkit の `configureStore` API で作成できる**
+  - `configureStore` は名前付き引数として `reducer` 関数を受け取る
+  - `configureStore` はストアを便利なデフォルト設定つきでセットアップする
+- **Redux のロジックは典型的には「スライス」と呼ばれるファイルで管理される**
+  - 「スライス」には Redux ステートの特定の機能/部分に関連するリデューサロジックやアクションが含まれている
+  - Redux Toolkit の `createSlice` API は、あなたが渡した個々のリデューサ関数のそれぞれに対し、アクションクリエータとアクションタイプを生成する
+- **Redux のリデューサは特定のルールに従わなければならない**
+  - `state` と `action` 引数から新しいステート値を計算する以外のことをしてはならない
+  - 既存のステートコピーすることで*イミュータブルな更新*をしなければならない
+  - 非同期ロジックやその他の「副作用」を含んでいてはならない
+  - Redux Toolkit の `createSlice` API は Immer を使っているので「ミューテート方式」でイミュータブルな更新ができる
+- **非同期ロジックは通常 thunk と呼ばれる特別な関数で書く**
+  - thunk は `dispatch` と `getState` を引数として受け取る
+  - Redux Toolkit は `redux-thunk` ミドルウェアをデフォルトで有効化する
+- **React-Redux を使うことで React コンポーネントは Redux ストアとやりとりできる**
+  - アプリを `<Provider store={store}>` でラップすることで全コンポーネントがストアを使えるようになる
+  - グローバルなステートは Redux ストアに書き、ローカルなステートは React コンポーネントに残す
 
 :::
 
-## What's Next?
+## 次は？
 
-Now that you've seen all the pieces of a Redux app in action, it's time to write your own! For the rest of this tutorial, you'll be building a larger example app that uses Redux. Along the way, we'll cover all the key ideas you need to know to use Redux the right way.
+Redux アプリのすべての部品が動作する様子を見終えたので、自分自身でアプリを書く時です。このチュートリアルの残りの部分では、Redux を使用してより大きなサンプルアプリを作成していきます。そうしながら、Redux を正しい方法で使用するために知っておくべき重要なアイデアをすべて説明していきます。
 
-Continue on to [Part 3: Basic Redux Data Flow](./part-3-data-flow.md) to get started building the example app.
+[Part 3: Basic Redux Data Flow](./part-3-data-flow.md)に進んで、サンプルアプリの作成を始めましょう。

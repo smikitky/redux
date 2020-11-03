@@ -1,85 +1,85 @@
 ---
 id: part-1-overview-concepts
-title: 'Redux Essentials, Part 1: Redux Overview and Concepts'
-sidebar_label: 'Redux Overview and Concepts'
+title: '必修チュートリアル 1：Redux の概要とコンセプト'
+sidebar_label: 'Redux の概要とコンセプト'
 hide_title: true
 description: 'The official Essentials tutorial for Redux: learn how to use Redux, the right way'
 ---
 
 import { DetailedExplanation } from '../../components/DetailedExplanation'
 
-# Redux Essentials, Part 1: Redux Overview and Concepts
+# 必修チュートリアル 1：Redux の概要とコンセプト
 
-:::tip What You'll Learn
+:::tip この章で学ぶこと
 
-- What Redux is and why you might want to use it
-- Key Redux terms and concepts
-- How data flows through a Redux app
-
-:::
-
-## Introduction
-
-Welcome to the Redux Essentials tutorial! **This tutorial will introduce you to Redux and teach you how to use it the right way, using our latest recommended tools and best practices**. By the time you finish, you should be able to start building your own Redux applications using the tools and patterns you've learned here.
-
-In Part 1 of this tutorial, we'll cover the key concepts and terms you need to know to use Redux, and in [Part 2: Redux App Structure](./part-2-app-structure.md) we'll examine a basic React + Redux app to see how the pieces fit together.
-
-Starting in [Part 3: Basic Redux Data Flow](./part-3-data-flow.md), we'll use that knowledge to build a small social media feed app with some real-world features, see how those pieces actually work in practice, and talk about some important patterns and guidelines for using Redux.
-
-### How to Read This Tutorial
-
-This page will focus on showing you _how_ to use Redux the right way, and explain just enough of the concepts so that you can understand how to build Redux apps correctly.
-
-We've tried to keep these explanations beginner-friendly, but we do need to make some assumptions about what you know already:
-
-:::important Prerequisites
-
-- Familiarity with [HTML & CSS](https://internetingishard.com/).
-- Familiarity with [ES6 syntax and features](https://www.taniarascia.com/es6-syntax-and-feature-overview/)
-- Knowledge of React terminology: [JSX](https://reactjs.org/docs/introducing-jsx.html), [State](https://reactjs.org/docs/state-and-lifecycle.html), [Function Components, Props](https://reactjs.org/docs/components-and-props.html), and [Hooks](https://reactjs.org/docs/hooks-intro.html)
-- Knowledge of [asynchronous JavaScript](https://javascript.info/promise-basics) and [making AJAX requests](https://javascript.info/fetch)
+- Redux とは何で、なぜ使いたくなるものなのか
+- 鍵となる Redux の用語とコンセプト
+- Redux アプリでのデータの流れ
 
 :::
 
-**If you're not already comfortable with those topics, we encourage you to take some time to become comfortable with them first, and then come back to learn about Redux**. We'll be here when you're ready!
+## はじめに
 
-You should make sure that you have the React and Redux DevTools extensions installed in your browser:
+Redux Essentials （必修）チュートリアルにようこそ！ **このチュートリアルでは Redux を紹介し、我々の最新の推奨とベストプラクティスに基づいてどのように Redux を正しく使うのかについて説明します**。これを終える頃には、ここで学んだツールやパターンを用いて自分の Redux アプリケーションが作成できるようになっているでしょう。
 
-- React DevTools Extension:
+このチュートリアルのパート 1 では、Redux を使うために知っておくべき重要な概念と用語を取り上げ、[パート 2：Redux アプリの構造](./part-2-app-structure.md)では、基本的な React + Redux アプリを見ながら、各パーツがどのように組み合わされているかを見ていきます。
+
+[Part 3: Basic Redux Data Flow](./part-3-data-flow.md)からは、その知識を使って、実際の機能を備えた小さなソーシャルメディアフィードアプリを構築し、実際にどのように動作するかを確認し、Redux を使用する際の重要なパターンとガイドラインについて説明します。
+
+### このチュートリアルの読み進め方
+
+このページでは、Redux の正しい*使い方*にフォーカスし、Redux アプリを正しく構築する方法を理解できるのに十分なだけの概念を説明します。
+
+説明は初心者向けにしていますが、あなたが既に知っている知識についての多少の前提はあります。
+
+:::important 前提となる知識
+
+- [HTML と CSS](https://internetingishard.com/) に関する多少の知識
+- [ES6 構文と機能](https://www.taniarascia.com/es6-syntax-and-feature-overview/) に関する多少の知識
+- React 用語に関する知識：[JSX](https://reactjs.org/docs/introducing-jsx.html)、[state](https://reactjs.org/docs/state-and-lifecycle.html)、[関数コンポーネントと props](https://reactjs.org/docs/components-and-props.html)、[フック](https://reactjs.org/docs/hooks-intro.html)
+- [JavaScript の非同期処理](https://javascript.info/promise-basics)に関する知識と [AJAX リクエスト作成](https://javascript.info/fetch)の方法
+
+:::
+
+**もしこれらのトピックにまだ慣れていないのであれば、まず少々時間をかけてこれらに慣れてから Redux について学びに戻ってきてください**。準備ができるまでここでお待ちしています！
+
+ブラウザに React DevTools と Redux DevTools 拡張機能がインストールされていることを確認してください。
+
+- React DevTools 拡張機能：
   - [React DevTools Extension for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
   - [React DevTools Extension for Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/)
-- Redux DevTools Extension:
+- Redux DevTools 拡張機能：
   - [Redux DevTools Extension for Chrome](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
   - [Redux DevTools Extension for Firefox](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/)
 
-## What is Redux?
+## Redux とは？
 
-It helps to understand what this "Redux" thing is in the first place. What does it do? What problems does it help me solve? Why would I want to use it?
+そもそもこの "Redux" とやらが何なのかを理解するところから始めましょう。何をするもので、どんな問題を解決してくれ、なぜ使いたくなるのでしょうか。
 
-**Redux is a pattern and library for managing and updating application state, using events called "actions".** It serves as a centralized store for state that needs to be used across your entire application, with rules ensuring that the state can only be updated in a predictable fashion.
+**Redux は、「アクション」と呼ばれるイベントを使用して、アプリケーションのステートを管理・更新するためのパターンであり、ライブラリです。**アプリケーション全体で使用する必要がある状態を保持するための一元化されたストアとして機能し、状態が予測可能な方法でのみ更新されることを保証するルールを備えています。
 
-### Why Should I Use Redux?
+### Redux を学ぶべき理由
 
-Redux helps you manage "global" state - state that is needed across many parts of your application.
+Redux は「グローバル」なステート、すなわちアプリの様々な場所から必要とされるステートの管理をする場合に役立ちます。
 
-**The patterns and tools provided by Redux make it easier to understand when, where, why, and how the state in your application is being updated, and how your application logic will behave when those changes occur**. Redux guides you towards writing code that is predictable and testable, which helps give you confidence that your application will work as expected.
+**Redux が提供するパターンとツールを使うことで、いつ、どこで、なぜ、どのようにしてアプリケーションの状態が更新されるのか、また、それらの変更が発生したときにアプリケーションロジックがどのように振る舞うのかを容易に理解することができるようになります。**Redux が、予測可能でテスト可能なコードを書くようガイドしてくれるため、アプリケーションが期待通りに動作するという確信が得られます。
 
-### When Should I Use Redux?
+### Redux を学ぶべきタイミング
 
-Redux helps you deal with shared state management, but like any tool, it has tradeoffs. There's more concepts to learn, and more code to write. It also adds some indirection to your code, and asks you to follow certain restrictions. It's a trade-off between short term and long term productivity.
+Redux は共有されるステートを管理するのに役立ちますが、他のツールと同様、トレードオフも存在します。学ぶべき概念は増えますし、書くべきコードは増えます。また、コードがいくらか間接的なものになり、特定の制限に従うことが求められます。短期的な生産性と長期的な生産性のトレードオフなのです。
 
-Redux is more useful when:
+Redux は以下のような場合に有用です：
 
-- You have large amounts of application state that are needed in many places in the app
-- The app state is updated frequently over time
-- The logic to update that state may be complex
-- The app has a medium or large-sized codebase, and might be worked on by many people
+- アプリ内の多くの場所で必要とされるステートが大量に存在する
+- アプリの状態は時間とともに頻繁に更新される
+- その状態を更新するロジックが複雑になりうる
+- アプリのコードベースが中規模～大規模であり、多くの人が作業する可能性がある
 
-**Not all apps need Redux. Take some time to think about the kind of app you're building, and decide what tools would be best to help solve the problems you're working on.**
+**すべてのアプリに Redux が必要なわけではありません。あなたが作っているアプリがどんな種類なのかを時間をかけて考え、取り組んでいる問題を解決するためにどのツールが最適なのか決めるようにしてください。**
 
-:::info Want to Know More?
+:::info もっと知りたい場合
 
-If you're not sure whether Redux is a good choice for your app, these resources give some more guidance:
+あなたのアプリに Redux を使って良いのか不明な場合は、以下のリソースに更なるガイダンスがあります。
 
 - **[When (and when not) to reach for Redux](https://changelog.com/posts/when-and-when-not-to-reach-for-redux)**
 - **[The Tao of Redux, Part 1 - Implementation and Intent](http://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)**
@@ -88,29 +88,29 @@ If you're not sure whether Redux is a good choice for your app, these resources 
 
 :::
 
-### Redux Libraries and Tools
+### Redux ライブラリとツール
 
-Redux is a small standalone JS library. However, it is commonly used with several other packages:
+Redux 自体は単体の小さな JS ライブラリです。しかし他のパッケージとよく組み合わせて使用されます。
 
 #### React-Redux
 
-Redux can integrate with any UI framework, and is most frequently used with React. [**React-Redux**](https://react-redux.js.org/) is our official package that lets your React components interact with a Redux store by reading pieces of state and dispatching actions to update the store.
+Redux はあらゆる UI フレームワークと統合できますが、React で最も使用されています。公式パッケージである [**React-Redux**](https://react-redux.js.org/) は、React コンポーネントが Redux ストアとやりとりし、ストアからステートを部分的に読み取ったりストアを更新するためのアクションをディスパッチしたりできるようにします。
 
 #### Redux Toolkit
 
-[**Redux Toolkit**](https://redux-toolkit.js.org) is our recommended approach for writing Redux logic. It contains packages and functions that we think are essential for building a Redux app. Redux Toolkit builds in our suggested best practices, simplifies most Redux tasks, prevents common mistakes, and makes it easier to write Redux applications.
+[**Redux Toolkit**](https://redux-toolkit.js.org) は、Redux ロジックを書くために我々が推奨するアプローチです。Redux Toolkit には、Redux アプリを構築するのに我々が必須だと考えているパッケージや関数が含まれています。Redux Toolkit を使うことで、推奨されるベストプラクティスに準拠し、多くの Redux のタスクを簡略化し、よくあるミスを防ぎ、Redux アプリをより簡単に書けるようになります。
 
-#### Redux DevTools Extension
+#### Redux DevTools 拡張機能
 
-The [**Redux DevTools Extension**](https://github.com/zalmoxisus/redux-devtools-extension) shows a history of the changes to the state in your Redux store over time. This allows you to debug your applications effectively, including using powerful techniques like "time-travel debugging".
+[**Redux DevTools 拡張機能**](https://github.com/zalmoxisus/redux-devtools-extension) は Redux のストアに生じたステート変化の履歴を表示します。これにより効率的にアプリケーションをデバッグできるようになり、これには「タイムトラベルデバッギング」と呼ばれるパワフルなテクニックも含まれています。
 
-## Redux Terms and Concepts
+## Redux 用語とコンセプト
 
-Before we dive into some actual code, let's talk about some of the terms and concepts you'll need to know to use Redux.
+実際のコードに取りかかる前に、Redux を使う際に知る必要がある用語や概念について少しお話しします。
 
-### State Management
+### ステート管理
 
-Let's start by looking at a small React counter component. It tracks a number in component state, and increments the number when a button is clicked:
+この小さな React カウンタコンポーネントを眺めるところから始めましょう。コンポーネントの state として数字を保持しており、ボタンがクリックされたらそれをインクリメントします：
 
 ```jsx
 function Counter() {
@@ -131,34 +131,34 @@ function Counter() {
 }
 ```
 
-It is a self-contained app with the following parts:
+これは自己完結したアプリであり、以下のような要素を含んでいます：
 
-- The **state**, the source of truth that drives our app;
-- The **view**, a declarative description of the UI based on the current state
-- The **actions**, the events that occur in the app based on user input, and trigger updates in the state
+- 我々のアプリを動かす信頼できる情報源 (souce of truth) となる**ステート**
+- 現在のステートに対応する UI を宣言的に記述する**ビュー**
+- ユーザ入力に応じてアプリ内で発生しステートの更新をトリガするイベントである**アクション**
 
-This is a small example of **"one-way data flow"**:
+これは、**「単一方向データフロー」**のシンプルな例となっています：
 
-- State describes the condition of the app at a specific point in time
-- The UI is rendered based on that state
-- When something happens (such as a user clicking a button), the state is updated based on what occurred
-- The UI re-renders based on the new state
+- ステートはある特定のタイミングにおけるアプリの状態を記述する
+- UI はそのステートに応じてレンダーされる
+- 何か（ユーザのクリックなど）が起こったときに、起こったことに応じてステートが更新される
+- UI はその新しいステートに応じて再レンダーされる
 
 ![One-way data flow](/img/tutorials/essentials/one-way-data-flow.png)
 
-However, the simplicity can break down when we have **multiple components that need to share and use the same state**, especially if those components are located in different parts of the application. Sometimes this can be solved by ["lifting state up"](https://reactjs.org/docs/lifting-state-up.html) to parent components, but that doesn't always help.
+しかし、**同じステートを複数のコンポーネントが共有する**必要が出てきて、特にそれらのコンポーネントがアプリの様々な場所に置かれるようになってくると、このシンプルさは失われてしまいます。これは親コンポーネントに[「ステートをリフトアップ」](https://reactjs.org/docs/lifting-state-up.html)することで解決できることもありますが、これがいつもうまく行く訳ではありません。
 
-One way to solve this is to extract the shared state from the components, and put it into a centralized location outside the component tree. With this, our component tree becomes a big "view", and any component can access the state or trigger actions, no matter where they are in the tree!
+これを解決する 1 つの方法は、共有されるステートをコンポーネントから抽出して、コンポーネントツリーの外側のどこか一元的な場所に置くことです。これによりコンポーネントツリーは 1 個の大きな「ビュー」になり、どのコンポーネントも、ツリーのどこにいるかに関係なく、状態にアクセスしたり、アクションをトリガしたりできるようになります！
 
-By defining and separating the concepts involved in state management and enforcing rules that maintain independence between views and states, we give our code more structure and maintainability.
+状態管理に関わる概念を定義して分離し、ビューとステートの間の独立性を維持するルールを適用することで、より構造化されたコードとなり、保守性が向上します。
 
-This is the basic idea behind Redux: a single centralized place to contain the global state in your application, and specific patterns to follow when updating that state to make the code predictable.
+これが Redux の基本的な考え方です。Redux とはアプリケーションのグローバルなステートを一元的に格納するための場所のことであり、コードを予測可能にするためにステート更新時に従うべき特定のパターンのことです。
 
-### Immutability
+### イミュータビリティ (immutability)
 
-"Mutable" means "changeable". If something is "immutable", it can never be changed.
+「ミュータブル (mutable)」とは「書き換わる可能性がある」という意味です。何かが「イミュータブル (immutable)」であるとは、それが書き換わる可能性がないという意味です。
 
-JavaScript objects and arrays are all mutable by default. If I create an object, I can change the contents of its fields. If I create an array, I can change the contents as well:
+JavaScript のオブジェクトや配列はデフォルトですべてミュータブルです。オブジェクトを作成したら、そのフィールドの内容を変更することができますね。同様に配列を作成したら、その内容を変更することができます：
 
 ```js
 const obj = { a: 1, b: 2 }
@@ -171,11 +171,11 @@ arr.push('c')
 arr[1] = 'd'
 ```
 
-This is called _mutating_ the object or array. It's the same object or array reference in memory, but now the contents inside the object have changed.
+これをオブジェクトや配列の*ミューテート* (mutate; 書き換え) と呼びます。メモリ上で参照しているのは同じオブジェクトないし配列ですが、その中身が変わっています。
 
-**In order to update values immutably, your code must make _copies_ of existing objects/arrays, and then modify the copies**.
+**イミュータブルに値を更新する場合は、あなたのコードで既存のオブジェクト／配列の*コピー*を作成し、そのコピーを変更するようにします**。
 
-We can do this by hand using JavaScript's array / object spread operators, as well as array methods that return new copies of the array instead of mutating the original array:
+これを手でやる場合は、JavaScript の配列・オブジェクトスプレッド構文を使うこともできますし、元の配列を書き換えずに新しい配列のコピーを返す配列のメソッドを使うこともできます。
 
 ```js
 const obj = {
@@ -208,30 +208,30 @@ const arr3 = arr.slice()
 arr3.push('c')
 ```
 
-**Redux expects that all state updates are done immutably**. We'll look at where and how this is important a bit later, as well as some easier ways to write immutable update logic.
+**Redux は、すべてのステート更新がイミュータブルに行われることを期待します**。これがいつどのように重要なのかと、イミュータブルな更新ロジックをもっと簡単に記述する方法については、少し後で説明します。
 
-:::info Want to Know More?
+:::info もっと知りたい場合
 
-For more info on how immutability works in JavaScript, see:
+JavaScript でイミュータビリティがどのように働くのかについては、以下を参照してください：
 
 - [A Visual Guide to References in JavaScript](https://daveceddia.com/javascript-references/)
 - [Immutability in React and Redux: The Complete Guide](https://daveceddia.com/react-redux-immutability-guide/)
 
 :::
 
-### Terminology
+### 用語
 
-There's some important Redux terms that you'll need to be familiar with before we continue:
+先に進む前に慣れ親しんでおいて欲しい、重要な Redux 用語がいくつかあります。
 
-#### Actions
+#### アクション (action)
 
-An **action** is a plain JavaScript object that has a `type` field. **You can think of an action as an event that describes something that happened in the application**.
+**アクション** とは `type` フィールドを持つ JavaScript オブジェクトです。**アクションとは、アプリで何が起きたのかを記述するイベントであると考えることができます**。
 
-The `type` field should be a string that gives this action a descriptive name, like `"todos/todoAdded"`. We usually write that type string like `"domain/eventName"`, where the first part is the feature or category that this action belongs to, and the second part is the specific thing that happened.
+`type` フィールドは、`"todos/todoAdded"` のような、このアクションの説明となる文字列であるべきです。この type 文字列は、アクションが属する機能ないしカテゴリを表す domain と、起こったことの内容を表す eventName を使って、`"domain/eventName"` のような形式で書きます。
 
-An action object can have other fields with additional information about what happened. By convention, we put that information in a field called `payload`.
+アクションオブジェクトは、何が起こったのかを表す追加の情報を保持するフィールドを持つことができます。規約として、この情報を `payload` というフィールドに入れることにします。
 
-A typical action object might look like this:
+典型的なアクションオブジェクトは以下のような見た目になります：
 
 ```js
 const addTodoAction = {
@@ -240,9 +240,9 @@ const addTodoAction = {
 }
 ```
 
-#### Action Creators
+#### アクションクリエータ (action creator)
 
-An **action creator** is a function that creates and returns an action object. We typically use these so we don't have to write the action object by hand every time:
+**アクションクリエータ**とは、アクションオブジェクトを作成してそれを返す関数のことです。アクションオブジェクトを毎回手書きしないで済むように、典型的にはこのようなものを使います。
 
 ```js
 const addTodo = text => {
@@ -253,31 +253,31 @@ const addTodo = text => {
 }
 ```
 
-#### Reducers
+#### リデューサ (reducer)
 
-A **reducer** is a function that receives the current `state` and an `action` object, decides how to update the state if necessary, and returns the new state: `(state, action) => newState`. **You can think of a reducer as an event listener which handles events based on the received action (event) type.**
+リデューサは、現在の `state` と `action` オブジェクトを受け取って、必要に応じてステートをどう更新するかを決め、新しいステートを返すような関数（`(state, action) => newState`）です。**リデューサは、受け取ったアクション（イベント）の type に応じて処理を行う、イベントリスナの一種であると考えることができます**。
 
 :::info
 
-"Reducer" functions get their name because they're similar to the kind of callback function you pass to the [`Array.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce) method.
+これが "reducer" 関数という名前になっているのは、[`Array.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce) に渡す類のコールバック関数と類似しているからです。
 
 :::
 
-Reducers must _always_ follow some specific rules:
+リデューサは*常に*特定のルールに従う必要があります：
 
-- They should only calculate the new state value based on the `state` and `action` arguments
-- They are not allowed to modify the existing `state`. Instead, they must make _immutable updates_, by copying the existing `state` and making changes to the copied values.
-- They must not do any asynchronous logic, calculate random values, or cause other "side effects"
+- `state` と `action` 引数に基づいて新しいステートを計算する以外のことをしてはいけない。
+- 既存の `state` を書き換えてはいけない。代わりに既存の `state` をコピーし、コピーに変更を加えるという、*イミュータブルな更新*を行わなければならない。
+- 非同期なロジックを実行したり、ランダムな値の計算を行ったり、その他「副作用 (side effect)」を引き起こしてはいけない。
 
-We'll talk more about the rules of reducers later, including why they're important and how to follow them correctly.
+これが重要である理由や、これを守るための方法など、リデューサのルールの詳細については後で説明します。
 
-The logic inside reducer functions typically follows the same series of steps:
+リデューサ関数内のロジックは、典型的には以下のようなステップとなっています。
 
-- Check to see if the reducer cares about this action
-  - If so, make a copy of the state, update the copy with new values, and return it
-- Otherwise, return the existing state unchanged
+- リデューサが当該アクションに対応する必要があるかチェックする
+  - 対応する必要がある場合、ステートをコピーして、そのコピーを新しい値で書き換えて、それを返す
+- そうでない場合、既存のステートを変更せずに返す
 
-Here's a small example of a reducer, showing the steps that each reducer should follow:
+以下の小さなリデューサの例で、リデューサが守るべきステップを示しています。
 
 ```js
 const initialState = { value: 0 }
@@ -297,20 +297,20 @@ function counterReducer(state = initialState, action) {
 }
 ```
 
-Reducers can use any kind of logic inside to decide what the new state should be: `if/else`, `switch`, loops, and so on.
+リデューサの内部では新しいステートの中身を決めるのに `if/else`、`switch`、ループなどの好きなロジックを使うことができます。
 
-<DetailedExplanation title="Detailed Explanation: Why Are They Called 'Reducers?'" >
+<DetailedExplanation title="詳細説明：なぜリデューサという名前なのか?" >
 
-The [`Array.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce) method lets you take an array of values, process each item in the array one at a time, and return a single final result. You can think of it as "reducing the array down to one value".
+[`Array.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce) メソッドは値の配列を受け取り、その配列内の要素を 1 つずつ処理して、単一の最終結果を返します。これは「配列を 1 つの値へと短くする (reduce)」処理だと考えることができます。
 
-`Array.reduce()` takes a callback function as an argument, which will be called one time for each item in the array. It takes two arguments:
+`Array.reduce()` は引数としてコールバック関数を受け取り、それは配列内の各要素に対して 1 度ずつ呼び出されます。コールバック関数は 2 つの引数を受け取ります。
 
-- `previousResult`, the value that your callback returned last time
-- `currentItem`, the current item in the array
+- `previousResult`: 前回コールバックが返した値
+- `currentItem`: 現在の配列内の要素
 
-The first time that the callback runs, there isn't a `previousResult` available, so we need to also pass in an initial value that will be used as the first `previousResult`.
+コールバックが最初に呼ばれる際には `previousResult` はまだありませんので、初回の `previousResult` として使うための初期値も渡す必要があります。
 
-If we wanted to add together an array of numbers to find out what the total is, we could write a reduce callback that looks like this:
+例えば数値の配列の中身を足し合わせて合計を知りたい場合は、reduce callback として以下のようなものを書きます：
 
 ```js
 const numbers = [2, 5, 8]
@@ -331,11 +331,11 @@ console.log(total)
 // 15
 ```
 
-Notice that this `addNumber` "reduce callback" function doesn't need to keep track of anything itself. It takes the `previousResult` and `currentItem` arguments, does something with them, and returns a new result value.
+ここで `addNumber` という "reduce callback" 関数は、それ自体が何かを覚えておく必要がないということに注意してください。`previousResult` と `currentItems` という引数を受けとり、これらを使って何か処理をして、新しい値を返しているだけです。
 
-**A Redux reducer function is exactly the same idea as this "reduce callback" function!** It takes a "previous result" (the `state`), and the "current item" (the `action` object), decides a new state value based on those arguments, and returns that new state.
+**Redux のリデューサ関数もこの "reduce callback" 関数と全く同じ発想によるものです！** 「前回のステート」(`state`) と 「現在の要素」(`action`) とを受け取って、これらに基づいて新しいステートを決めて、その新しいステートを返します。
 
-If we were to create an array of Redux actions, call `reduce()`, and pass in a reducer function, we'd get a final result the same way:
+もし Redux のアクションが配列になっていれば、`reduce()` メソッドにリデューサ関数を入れて呼び出せば、同じようにして最終結果のステートが手に入るでしょう：
 
 ```js
 const actions = [
@@ -351,15 +351,15 @@ console.log(finalResult)
 // {value: 3}
 ```
 
-We can say that **Redux reducers reduce a set of actions (over time) into a single state**. The difference is that with `Array.reduce()` it happens all at once, and with Redux, it happens over the lifetime of your running app.
+つまり **Redux のリデューサは（時間とともに発生する）アクションの組み合わせを単一のステートに reduce するものだ**ということです。違いは、`Array.reduce()` ではそれが一度に起きる一方で、Redux では実行中のアプリのライフタイムに渡ってそれが起きるということです。
 
 </DetailedExplanation>
 
-#### Store
+#### ストア (store)
 
-The current Redux application state lives in an object called the **store** .
+Redux アプリケーションの現在のステートは、ストアと呼ばれるオブジェクトに入っています。
 
-The store is created by passing in a reducer, and has a method called `getState` that returns the current state value:
+ストアはリデューサを渡して作られるものでああり、現在のステートの値を返す `getState` というメソッドを持っています。
 
 ```js
 import { configureStore } from '@reduxjs/toolkit'
@@ -370,9 +370,9 @@ console.log(store.getState())
 // {value: 0}
 ```
 
-#### Dispatch
+#### ディスパッチ (dispatch)
 
-The Redux store has a method called `dispatch`. **The only way to update the state is to call `store.dispatch()` and pass in an action object**. The store will run its reducer function and save the new state value inside, and we can call `getState()` to retrieve the updated value:
+Redux ストアには `dispatch` というメソッドがあります。**ステートを更新する唯一の方法は、`store.dispatch()` を呼び出してアクションオブジェクトを渡すことです**。ストアがリデューサ関数を呼び出し、内部に新しいステートを保存し、`getState()` でその更新後の値を取得できるようにします。
 
 ```js
 store.dispatch({ type: 'counter/increment' })
@@ -381,9 +381,9 @@ console.log(store.getState())
 // {value: 1}
 ```
 
-**You can think of dispatching actions as "triggering an event"** in the application. Something happened, and we want the store to know about it. Reducers act like event listeners, and when they hear an action they are interested in, they update the state in response.
+アプリケーションにおける**アクションのディスパッチとは「イベントをトリガする」ようなものだと考えて構いません**。何かが起こり、ストアにそのことを伝えたいと思ったとします。リデューサはイベントリスナのように働くので、リデューサが自分の興味のあるアクションをリッスンしたら、それに対応してステートを更新します。
 
-We typically call action creators to dispatch the right action:
+典型的には正しいアクションをディスパッチできるよう、アクションクリエータを呼び出します：
 
 ```js
 const increment = () => {
@@ -398,9 +398,9 @@ console.log(store.getState())
 // {value: 2}
 ```
 
-#### Selectors
+#### セレクタ (selector)
 
-**Selectors** are functions that know how to extract specific pieces of information from a store state value. As an application grows bigger, this can help avoid repeating logic as different parts of the app need to read the same data:
+セレクタとは、ストア内のステート値から情報の特定の一部を取り出すための関数です。アプリケーションが大きくなるにつれ、アプリの様々な場所から同じ値を取り出す際に起こるロジックの重複を回避できるようになります。
 
 ```js
 const selectCounterValue = state => state.value
@@ -410,56 +410,56 @@ console.log(currentValue)
 // 2
 ```
 
-### Redux Application Data Flow
+### Redux アプリにおけるデータの流れ
 
-Earlier, we talked about "one-way data flow", which describes this sequence of steps to update the app:
+先ほど、以下のようなステップでアプリの更新を行う「単一方向データフロー (one-way date flow)」についてお話ししました。
 
-- State describes the condition of the app at a specific point in time
-- The UI is rendered based on that state
-- When something happens (such as a user clicking a button), the state is updated based on what occurred
-- The UI re-renders based on the new state
+- ステートはある特定のタイミングにおけるアプリの状態を記述する
+- UI はそのステートに応じてレンダーされる
+- 何か（ユーザのクリックなど）が起こったときに、起こったことに応じてステートが更新される
+- UI はその新しいステートに応じて再レンダーされる
 
-For Redux specifically, we can break these steps into more detail:
+Redux 特有の話も含めてより詳細に書くとこうなります。
 
-- Initial setup:
-  - A Redux store is created using a root reducer function
-  - The store calls the root reducer once, and saves the return value as its initial `state`
-  - When the UI is first rendered, UI components access the current state of the Redux store, and use that data to decide what to render. They also subscribe to any future store updates so they can know if the state has changed.
-- Updates:
-  - Something happens in the app, such as a user clicking a button
-  - The app code dispatches an action to the Redux store, like `dispatch({type: 'counter/increment'})`
-  - The store runs the reducer function again with the previous `state` and the current `action`, and saves the return value as the new `state`
-  - The store notifies all parts of the UI that are subscribed that the store has been updated
-  - Each UI component that needs data from the store checks to see if the parts of the state they need have changed.
-  - Each component that sees its data has changed forces a re-render with the new data, so it can update what's shown on the screen
+- 初回のセットアップ：
+  - ルートリデューサ関数を使って Redux のストアが作成される
+  - ストアはルートリデューサを呼び出し、その返り値を初期 `state` として保存する
+  - UI が最初にレンダーされる時、UI コンポーネントは Redux ストア内の現在のステートにアクセスし、そのデータを使って何をレンダーするか決定する。また将来のストアの更新を購読 (subscribe) してステートが更新された時に気づくようにする。
+- 更新：
+  - ユーザがボタンをクリックするなど、アプリで何かが起こる
+  - アプリコードが Redux ストアに向けて `dispatch({type: 'counter/increment'})` のようにしてアクションをディスパッチする
+  - ストアは以前の `state` と現在の `action` でリデューサを再び呼び出し、返り値を新しい `state` として保存する
+  - ストアはそれを購読しているすべての UI 部品に対して、ストアに更新があったことを通知する
+  - ストアからのデータを必要とするそれぞれの UI コンポーネントが、ステートのうち自分が必要としている部分に変更があったかどうかを確認する
+  - 自分の関わるデータに変更があったコンポーネントは新しいデータを使って強制的に再レンダーされ、画面に表示されるものが更新される
 
-Here's what that data flow looks like visually:
+視覚的にはデータフローはこのようなものになります：
 
 ![Redux data flow diagram](/img/tutorials/essentials/ReduxDataFlowDiagram.gif)
 
-## What You've Learned
+## 学んだこと
 
-Redux does have a number of new terms and concepts to remember. As a reminder, here's what we just covered:
+Redux には覚えるべき用語とコンセプトがそこそこの量あります。これまで見てきたことをおさらいしましょう：
 
-:::tip Summary
+:::tip まとめ
 
-- **Redux is a library for managing global application state**
-  - Redux is typically used with the React-Redux library for integrating Redux and React together
-  - Redux Toolkit is the recommended way to write Redux logic
-- **Redux uses a "one-way data flow" app structure**
-  - State describes the condition of the app at a point in time, and UI renders based on that state
-  - When something happens in the app:
-    - The UI dispatches an action
-    - The store runs the reducers, and the state is updated based on what occurred
-    - The store notifies the UI that the state has changed
-  - The UI re-renders based on the new state
-- **Redux uses several types of code**
-  - _Actions_ are plain objects with a `type` field, and describe "what happened" in the app
-  - _Reducers_ are functions that calculate a new state value based on previous state + an action
-  - A Redux _store_ runs the root reducer whenever an action is _dispatched_
+- **Redux はアプリケーションのステートを管理するライブラリである**
+  - Redux は典型的には、Redux と React を統合するためのライブラリである React-Redux とともに使われる
+  - Redux ロジックを記述するのに Redux Toolkit を使うことが推奨される
+- **Redux アプリは単一方向データフローという構造をとる**
+  - ステートはある一時点におけるアプリの状態を記述し、UI はそのステートに応じてレンダーされる
+  - アプリ内で何かが起こった場合：
+    - UI がアクションをディスパッチする
+    - ストアはリデューサを実行し、起こったことに基づいてステートが更新される
+    - ストアが UI にステートが変わったことを通知する
+  - 新しいステートで UI が再レンダーされる
+- **Redux では幾つかの種類のコードが使われる**
+  - _アクション_ とは `type` フィールドを有するプレーンオブジェクトであり、アプリで「何が起きたのか」を記述する
+  - _リデューサ_ とは一つ前のステートとアクションとの組み合わせから新しいステートを計算する関数である
+  - Redux の *ストア*　が、アクションが*ディスパッチ*される度にルートリデューサを実行する
 
 :::
 
-## What's Next?
+## 次は？
 
-We've seen each of the individual pieces of a Redux app. Next, continue on to [Part 2: Redux App Structure](./part-2-app-structure.md), where we'll look at a full working example to see how the pieces fit together.
+Redux アプリにおける各々の部品について見てきました。次は[パート 2：アプリの構成](./part-2-app-structure.md)に進み、完全に動作するサンプルを通じて、これらの部品がどのように協調して働くのかを見ていきましょう。

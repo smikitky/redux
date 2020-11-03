@@ -167,13 +167,13 @@ Redux Toolkit により、Redux の振る舞いとデータフローを保った
 
 Redux を学ぶための様々なリソースがあります。
 
-### Redux 必須チュートリアル
+### Redux Essentials チュートリアル
 
-[**Redux 必須チュートリアル**](../tutorials/essentials/part-1-overview-concepts.md) は「トップダウン」式のチュートリアルであり、推奨される最新の API とベストプラクティスを用いて「正しいやり方で Redux を使う」ための方法が学べます。ここから始めるのがお勧めします。
+[**Redux Essentials （必修）チュートリアル**](../tutorials/essentials/part-1-overview-concepts.md) は「トップダウン」式のチュートリアルであり、推奨される最新の API とベストプラクティスを用いて「正しいやり方で Redux を使う」ための方法が学べます。ここから始めるのがお勧めです。
 
-### Redux 原理のチュートリアル
+### Redux Fundamentals チュートリアル
 
-The [**Redux 原理のチュートリアル**](../tutorials/fundamentals/part-1-overview.md) は「ボトムアップ」型のチュートリアルであり、何も抽象化せず最初の原理から「React がどうやって動くのか」を、そして標準的な React の使用パターンがなぜそうなっているのかを説明しています。
+The [**Redux Fundamentals （原理）チュートリアル**](../tutorials/fundamentals/part-1-overview.md) は「ボトムアップ」型のチュートリアルであり、何も抽象化せず最初の原理から「React がどうやって動くのか」を、そして標準的な React の使用パターンがなぜそうなっているのかを説明しています。
 
 ### 追加のチュートリアル
 

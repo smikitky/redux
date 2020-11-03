@@ -1,33 +1,33 @@
 ---
 id: general
-title: General
+title: 一般的事項
 hide_title: true
 ---
 
-# Redux FAQ: General
+# Redux FAQ: 一般的事項
 
-## Table of Contents
+## 目次
 
 - [When should I learn Redux?](#when-should-i-learn-redux)
 - [When should I use Redux?](#when-should-i-use-redux)
 - [Can Redux only be used with React?](#can-redux-only-be-used-with-react)
 - [Do I need to have a particular build tool to use Redux?](#do-i-need-to-have-a-particular-build-tool-to-use-redux)
 
-## General
+## 一般的事項
 
-### When should I learn Redux?
+### Redux をいつ学ぶべきですか？
 
-What to learn can be an overwhelming question for a JavaScript developer. It helps to narrow the range of options by learning one thing at a time and focusing on problems you find in your work. Redux is a pattern for managing application state. If you do not have problems with state management, you might find the benefits of Redux harder to understand. Some UI libraries (like React) have their own state management system. If you are using one of these libraries, especially if you are just learning to use them, we encourage you to learn the capabilities of that built-in system first. It might be all you need to build your application. If your application becomes so complex that you are confused about where state is stored or how state changes, then it is a good time to learn Redux. Experiencing the complexity that Redux seeks to abstract is the best preparation for effectively applying that abstraction to your work.
+何を学ぶべきかというのは、JavaScript 開発者にとって重大な疑問になりえます。その回答如何で、一度にひとつのことだけを学び、業務での問題に集中し、選択の幅を狭めることができるのですから。Redux とは、アプリケーションのステートを管理するためのパターンです。ステート管理に問題を感じていなければ、Redux のメリットは理解しづらいかもしれません。一部の UI ライブラリ（React など）には、独自のステート管理システムがあります。これらのライブラリを使用している場合、特にそれらの使い方を学んでいる最中の場合には、まずその組み込みシステムの機能を学ぶことをお勧めします。それがアプリケーションを構築するのに必要なすべてかもしれないのです。アプリケーションが複雑になり、ステートがどこに保存されどのように変化するのかで混乱するようになってきたら、Redux を学ぶのに良いタイミングです。Redux が抽象化しようとしている複雑さを先に経験しておくことが、その抽象化を効果的に業務に適応するためのとても良い事前準備となるでしょう。
 
-#### Further information
+#### 参考情報
 
-**Articles**
+**記事**
 
 - [Deciding What Not To Learn](http://gedd.ski/post/what-not-to-learn/)
 - [How to learn web frameworks](https://ux.shopify.com/how-to-learn-web-frameworks-9d447cb71e68)
 - [Redux vs MobX vs Flux vs... Do you even need that?](https://goshakkk.name/redux-vs-mobx-vs-flux-etoomanychoices/)
 
-**Discussions**
+**ディスカッション**
 
 - [Ask HN: Overwhelmed with learning front-end, how do I proceed?](https://news.ycombinator.com/item?id=12882816)
 - [Twitter: If you want to teach someone to use an abstraction...](https://twitter.com/acemarke/status/901329101088215044)
@@ -37,38 +37,38 @@ What to learn can be an overwhelming question for a JavaScript developer. It hel
 - [Twitter: This was my experience with Redux...](https://twitter.com/garetmckinley/status/901500556568645634)
 - [Dev.to: When is it time to use Redux?](https://dev.to/dan_abramov/comment/1n2k)
 
-### When should I use Redux?
+### React をいつ使うべきですか？
 
-The need to use Redux should not be taken for granted.
+Redux を使うことを当然のことのように考えるべきではありません。
 
-As Pete Hunt, one of the early contributors to React, says:
+React の初期の貢献者である Pete Hunt はこう述べています：
 
-> You'll know when you need Flux. If you aren't sure if you need it, you don't need it.
+> Flux が必要になれば時が教えてくれる。必要かどうか分からないのなら、必要ないということだ。
 
-Similarly, Dan Abramov, one of the creators of Redux, says:
+同様に、Redux の作者の 1 人である Dav Abramov によれば：
 
-> I would like to amend this: don't use Redux until you have problems with vanilla React.
+> 言い方を変えます：素の React で問題がないなら、Redux を使ってはいけません。
 
-In general, use Redux when you have reasonable amounts of data changing over time, you need a single source of truth, and you find that approaches like keeping everything in a top-level React component's state are no longer sufficient.
+一般的には、時間の経過とともに変化する相当な量のデータがある場合、単一の信頼できる情報源 (single source of truth) が必要な場合、トップレベルの React コンポーネントの state にすべて保持するといったアプローチではもはやうまく行かないと分かった場合に、Redux を使うようにしてください。
 
-However, it's also important to understand that using Redux comes with tradeoffs. It's not designed to be the shortest or fastest way to write code. It's intended to help answer the question "When did a certain slice of state change, and where did the data come from?", with predictable behavior. It does so by asking you to follow specific constraints in your application: store your application's state as plain data, describe changes as plain objects, and handle those changes with pure functions that apply updates immutably. This is often the source of complaints about "boilerplate". These constraints require effort on the part of a developer, but also open up a number of additional possibilities (such as store persistence and synchronization).
+しかし、Redux にはトレードオフがあるということを理解することも重要です。Redux はコードを書くための最短・最速の方法として設計されているわけではありません。予測可能な動作によって、「あるステートの断片がいつ変化したのか、そのデータはどこから来たのか」という質問に答えられるようにすることを目的としています。そのために、アプリケーションのステートをプレーンなデータとして保持し、変更をプレーンなオブジェクトで記述し、その変更を処理するのに更新をイミュータブルに適用する純関数を使う、といった、特定の制約をあなたに課そうとします。これがしばしば「ボイラープレート」に関する不満の原因ともなっています。これらの制約は開発者側に労力を要求する一方で、多くの可能性（永続的なストアや同期など）をもたらすものでもあります。
 
-In the end, Redux is just a tool. It's a great tool, and there are some great reasons to use it, but there are also reasons you might not want to use it. Make informed decisions about your tools, and understand the tradeoffs involved in each decision.
+つまるところ Redux とは単なる道具です。すばらしい道具であり、使うべきすばらしい理由があるのですが、あなたがそれを使わないという理由もまたあるのです。自分の使う道具について知った上で判断を行い、それぞれの判断におけるトレードオフを理解するようにしてください。
 
-#### Further information
+#### 参考情報
 
-**Documentation**
+**ドキュメント**
 
 - [Thinking in Redux: Motivation](../understanding/thinking-in-redux/Motivation.md)
 
-**Articles**
+**記事**
 
 - **[When (and when not) to reach for Redux](https://changelog.com/posts/when-and-when-not-to-reach-for-redux)**
 - **[The Tao of Redux, Part 1 - Implementation and Intent](https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/)**
 - [You Might Not Need Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)
 - [The Case for Flux](https://medium.com/swlh/the-case-for-flux-379b7d1982c6)
 
-**Discussions**
+**ディスカッション**
 
 - [Twitter: Don't use Redux until...](https://twitter.com/dan_abramov/status/699241546248536064)
 - [Twitter: Redux is designed to be predictable, not concise](https://twitter.com/dan_abramov/status/733742952657342464)
@@ -84,14 +84,14 @@ In the end, Redux is just a tool. It's a great tool, and there are some great re
 - [Stack Overflow: Redux vs plain React?](http://stackoverflow.com/questions/39260769/redux-vs-plain-react/39261546#39261546)
 - [Twitter: Redux is a platform for developers to build customized state management with reusable things](https://twitter.com/acemarke/status/793862722253447168)
 
-### Can Redux only be used with React?
+### Redux は React と組み合わせてしか使えないのか？
 
-Redux can be used as a data store for any UI layer. The most common usage is with React and React Native, but there are bindings available for Angular, Angular 2, Vue, Mithril, and more. Redux simply provides a subscription mechanism which can be used by any other code. That said, it is most useful when combined with a declarative view implementation that can infer the UI updates from the state changes, such as React or one of the similar libraries available.
+Redux は、あらゆる UI レイヤーのデータストアとして使用できます。最も一般的な使用場所は React と React Native ですが、Angular、Angular 2、Vue、Mithril などで利用できるバインディングもあります。Redux は、単純に他のあらゆるコードが利用できるサブスクリプションの仕組みを提供しているだけです。とはいえ、React やその類似ライブラリのように、ステートの変化から UI の更新を推論できる宣言的ビューの実装と組み合わせた時に最も有用性を発揮します。
 
-### Do I need to have a particular build tool to use Redux?
+### Redux を使うのに特定のビルドツールが必要ですか？
 
-Redux is originally written in ES6 and transpiled for production into ES5 with Webpack and Babel. You should be able to use it regardless of your JavaScript build process. Redux also offers a UMD build that can be used directly without any build process at all. The [counter-vanilla](https://github.com/reduxjs/redux/tree/master/examples/counter-vanilla) example demonstrates basic ES5 usage with Redux included as a `<script>` tag. As the relevant pull request says:
+Redux はまず ES6 で書かれた後に、Webpack と Babel で本番用の ES5 へとトランスパイルされています。JavaScript のビルドプロセスに関係なく利用できるはずです。Redux には、ビルドプロセスを一切使わずに直接使用できる UMD ビルドもあります。[counter-vanilla](https://github.com/reduxjs/redux/tree/master/examples/counter-vanilla) サンプルは、基本的な ES5 と `<script>` で読み込まれた Redux でどのように使用するかについてのデモです。関連するプルリクエストではこのように述べられています：
 
-> The new Counter Vanilla example is aimed to dispel the myth that Redux requires Webpack, React, hot reloading, sagas, action creators, constants, Babel, npm, CSS modules, decorators, fluent Latin, an Egghead subscription, a PhD, or an Exceeds Expectations O.W.L. level.
+> この「素 JavaScript によるカウンタ」サンプルは、Webpack だの React だのホットリローディングだの saga だのアクションクリエータだの定数だの Babel だの npm だの CSS modules だのデコレータだの、はたまたラテン語能力だの Egghead への登録だの博士号だの普通魔法学試験での優秀な成績だのが Redux にとって必要だ……という神話を消し去るためのものです。
 >
-> Nope, it's just HTML, some artisanal `<script>` tags, and plain old DOM manipulation. Enjoy!
+> いいえ、ここにあるのは HTML と、伝統工芸的な `<script>` タグが幾つかと、何の変哲もない DOM 操作だけです！ 楽しんでください！

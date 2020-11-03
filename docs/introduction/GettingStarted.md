@@ -1,33 +1,31 @@
 ---
 id: getting-started
-title: Getting Started with Redux
+title: Redux を始める
 description: 'Introduction > Getting Started: Resources to get started learning and using Redux'
 hide_title: true
 ---
 
-# Getting Started with Redux
+# Redux を始める
 
-Redux is a predictable state container for JavaScript apps.
+Redux は JavaScript アプリのための予測可能 (predictable) なステートコンテナです。
 
-It helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test. On top of that, it provides a great developer experience, such as [live code editing combined with a time traveling debugger](https://github.com/reduxjs/redux-devtools).
+一貫して動作するアプリを書き、それを様々な環境（クライアント・サーバ・ネイティブ）で実行し、簡単にテストできるようになります。さらには、[ライブコードエディットやタイムトラベルデバッグ](https://github.com/reduxjs/redux-devtools)といった素晴らしい開発者体験をもたらしてくれます。
 
-You can use Redux together with [React](https://reactjs.org), or with any other view library. It is tiny (2kB, including dependencies), but has a large ecosystem of addons available.
+Redux は [React](https://reactjs.org) やその他任意のビューライブラリと組み合わせて使うことができます。Redux は非常に小さい（依存を含んでも 2kB）ですが、アドオンによる大きなエコシステムが利用可能です。
 
-## Installation
+## インストール
 
 ### Redux Toolkit
 
-[**Redux Toolkit**](https://redux-toolkit.js.org) is our official recommended approach for writing Redux logic. It wraps around the Redux core, and contains packages and functions that we think are essential for building a Redux app. Redux Toolkit builds in our suggested best practices, simplifies most Redux tasks, prevents common mistakes, and makes it easier to write Redux applications.
+[**Redux Toolkit**](https://redux-toolkit.js.org) (RTK) は、Redux のロジックを書くにあたって我々が公式に推奨するアプローチです。これは Redux のコアをラップしたものであり、Redux アプリを構築するのに我々が必須だと考えているパッケージや関数が含まれています。Redux Toolkit を使うことで、推奨されるベストプラクティスに準拠し、多くの Redux のタスクを簡略化し、よくあるミスを防ぎ、Redux アプリをより簡単に書けるようになります。
 
-RTK includes utilities that help simplify many common use cases, including [store setup](https://redux-toolkit.js.org/api/configureStore),
-[creating reducers and writing immutable update logic](https://redux-toolkit.js.org/api/createreducer),
-and even [creating entire "slices" of state at once](https://redux-toolkit.js.org/api/createslice).
+RTK には、[ストアのセットアップ](https://redux-toolkit.js.org/api/configureStore)、
+[更新ロジックを記述するためのリデューサの作成](https://redux-toolkit.js.org/api/createreducer)、
+更には[ステート「スライス」まるごとの作成](https://redux-toolkit.js.org/api/createslice)といった、多くのよくあるユースケースを簡略化するためのユーティリティが含まれています。
 
-Whether you're a brand new Redux user setting up your first project, or an experienced user who wants to
-simplify an existing application, **[Redux Toolkit](https://redux-toolkit.js.org/)** can help you
-make your Redux code better.
+Redux で初めてのプロジェクトをセットアップしようとしている新しいユーザの方も、既存のアプリをシンプルにしたいと考えている経験者も、**[Redux Toolkit](https://redux-toolkit.js.org/)** を使うことでコードをよりよくできるでしょう。
 
-Redux Toolkit is available as a package on NPM for use with a module bundler or in a Node application:
+Redux Toolkit は NPM パッケージとして公開されており、モジュールバンドラと組み合わせて、あるいは Node アプリケーションで使用できます。
 
 ```bash
 # NPM
@@ -37,9 +35,9 @@ npm install @reduxjs/toolkit
 yarn add @reduxjs/toolkit
 ```
 
-### Create a React Redux App
+### Create React App で使う
 
-The recommended way to start new apps with React and Redux is by using the [official Redux+JS template](https://github.com/reduxjs/cra-template-redux) for [Create React App](https://github.com/facebook/create-react-app), which takes advantage of **[Redux Toolkit](https://redux-toolkit.js.org/)** and React Redux's integration with React components.
+React と Redux で新しいアプリを始めたい場合には [Create React App](https://github.com/facebook/create-react-app) の[公式 Redux+JS テンプレート](https://github.com/reduxjs/cra-template-redux)を使うことをお勧めします。**[Redux Toolkit](https://redux-toolkit.js.org/)** と React Redux を使った React コンポーネントとのインテグレーションが含まれています。
 
 ```sh
 npx create-react-app my-app --template redux
@@ -47,7 +45,7 @@ npx create-react-app my-app --template redux
 
 ### Redux Core
 
-The Redux core library is available as a package on NPM for use with a module bundler or in a Node application:
+Redux コアライブラリは NPM パッケージとして公開されており、モジュールバンドラと組み合わせて、あるいは Node アプリケーションで使用できます。
 
 ```bash
 # NPM
@@ -57,15 +55,15 @@ npm install redux
 yarn add redux
 ```
 
-It is also available as a precompiled UMD package that defines a `window.Redux` global variable. The UMD package can be used as a [`<script>` tag](https://unpkg.com/redux/dist/redux.js) directly.
+グローバル変数として `window.Redux` を定義する、コンパイル済みの UMD パッケージも提供されています。UMD パッケージは [`<script>` タグ](https://unpkg.com/redux/dist/redux.js) で直接使えます。
 
-For more details, see the [Installation](Installation.md) page.
+詳しくは[インストール](Installation.md)のページを参照してください。
 
-## Basic Example
+## 基本の例
 
-The whole global state of your app is stored in an object tree inside a single _store_.
-The only way to change the state tree is to create an _action_, an object describing what happened, and _dispatch_ it to the store.
-To specify how state gets updated in response to an action, you write pure _reducer_ functions that calculate a new state based on the old state and the action.
+アプリのグローバルステートはストア (_store_) と呼ばれる単一のオブジェクトツリー内に保持されます。
+このステートツリーを更新する唯一の方法は、何が起きたのかの記述であるアクション (_action_) を作成して、ストアに向けてディスパッチ (_dispatch_) することです。
+アクションに対応してステートがどう更新されるのかを定義するために、古いステートとアクションに基づいて新しいステートを計算する純関数であるリデューサ (_reducer_) 関数を書きます。
 
 ```js
 import { createStore } from 'redux'
@@ -113,15 +111,15 @@ store.dispatch({ type: 'counter/decremented' })
 // {value: 1}
 ```
 
-Instead of mutating the state directly, you specify the mutations you want to happen with plain objects called _actions_. Then you write a special function called a _reducer_ to decide how every action transforms the entire application's state.
+直接ステートを書き換えるのはなく、代わりに起こしたい書き換えの内容を _action_ と呼ばれるプレーンオブジェクトで記述します。そして _reducer_ と呼ばれる関数を書いて、個々のアクションがどのようにアプリのステートを変換するのかを記述します。
 
-In a typical Redux app, there is just a single store with a single root reducing function. As your app grows, you split the root reducer into smaller reducers independently operating on the different parts of the state tree. This is exactly like how there is just one root component in a React app, but it is composed out of many small components.
+典型的な Redux アプリでは、ストアとそれに対応するルートとなるリデューサ関数が 1 組だけ存在します。アプリが大きくなるにつれて、ルートのリデューサを、ステートの別々の部分に作用する独立した小さなリデューサに分割していきます。これは、React アプリにはルートコンポーネントが 1 つだけあって、それが多くの小さなコンポーネントで出来ている、ということと全く同様です。
 
-This architecture might seem like a lot for a counter app, but the beauty of this pattern is how well it scales to large and complex apps. It also enables very powerful developer tools, because it is possible to trace every mutation to the action that caused it. You can record user sessions and reproduce them just by replaying every action.
+このアーキテクチャはカウンタのようなアプリでは大袈裟に見えるかもしれませんが、このパターンの美しいところは、大きく複雑なアプリでもよくスケールするということです。また、すべてのステートの書き換えを、それを起こしたアクションにまで追跡することができるため、非常にパワフルな開発者向けツールが実現できます。ユーザの操作を記録して再現することも、アクションをリプレイするだけで行えるようになります。
 
-### Redux Toolkit Example
+### Redux Toolkit の例
 
-Redux Toolkit simplifies the process of writing Redux logic and setting up the store. With Redux Toolkit, that same logic looks like:
+Redux Tookit は Redux ロジックを記述してストアをセットアップするプロセスを簡略化します。Redux Toolkit を使うと、同じロジックは以下のように書けます。
 
 ```js
 import { createSlice, configureStore } from '@reduxjs/toolkit'
@@ -163,53 +161,53 @@ store.dispatch(decremented())
 // {value: 1}
 ```
 
-Redux Toolkit allows us to write shorter logic that's easier to read, while still following the same Redux behavior and data flow.
+Redux Toolkit により、Redux の振る舞いとデータフローを保ったままで読みやすく短いロジックを書けるようになります。
 
-## Learn Redux
+## Redux を学ぶ
 
-We have a variety of resources available to help you learn Redux.
+Redux を学ぶための様々なリソースがあります。
 
-### Redux Essentials Tutorial
+### Redux 必須チュートリアル
 
-The [**Redux Essentials tutorial**](../tutorials/essentials/part-1-overview-concepts.md) is a "top-down" tutorial that teaches "how to use Redux the right way", using our latest recommended APIs and best practices. We recommend starting there.
+[**Redux 必須チュートリアル**](../tutorials/essentials/part-1-overview-concepts.md) は「トップダウン」式のチュートリアルであり、推奨される最新の API とベストプラクティスを用いて「正しいやり方で Redux を使う」ための方法が学べます。ここから始めるのがお勧めします。
 
-### Redux Fundamentals Tutorial
+### Redux 原理のチュートリアル
 
-The [**Redux Fundamentals tutorial**](../tutorials/fundamentals/part-1-overview.md) is a "bottom-up" tutorial that teaches "how Redux works" from first principles and without any abstractions, and why standard Redux usage patterns exist.
+The [**Redux 原理のチュートリアル**](../tutorials/fundamentals/part-1-overview.md) は「ボトムアップ」型のチュートリアルであり、何も抽象化せず最初の原理から「React がどうやって動くのか」を、そして標準的な React の使用パターンがなぜそうなっているのかを説明しています。
 
-### Additional Tutorials
+### 追加のチュートリアル
 
-- The Redux repository contains several example projects demonstrating various aspects of how to use Redux. Almost all examples have a corresponding CodeSandbox sandbox. This is an interactive version of the code that you can play with online. See the complete list of examples in the **[Examples page](./Examples.md)**.
-- Redux creator Dan Abramov's **free ["Getting Started with Redux" video series](https://egghead.io/series/getting-started-with-redux)** and **[Building React Applications with Idiomatic Redux](https://egghead.io/courses/building-react-applications-with-idiomatic-redux)** video courses on Egghead.io
-- Redux maintainer Mark Erikson's **["Redux Fundamentals" conference talk](http://blog.isquaredsoftware.com/2018/03/presentation-reactathon-redux-fundamentals/)** and [**"Redux Fundamentals" workshop slides**](https://blog.isquaredsoftware.com/2018/06/redux-fundamentals-workshop-slides/)
-- Dave Ceddia's post [**A Complete React Redux Tutorial for Beginners**](https://daveceddia.com/redux-tutorial/)
+- Redux リポジトリには Redux の様々な使い方をデモするための幾つかのサンプルプロジェクトが含まれています。ほぼ全ての例には対応する CodeSandbox のサンドボックスが付いています。これはオンラインで試せるインタラクティブなコードとなっています。**[サンプル](./Examples.md)**のページでサンプルの全リストが参照できます。
+- Redux の作者である Dan Abramov による **無料の ["Getting Started with Redux" ビデオシリーズ](https://egghead.io/series/getting-started-with-redux)** や、Egghead.io のビデオコース **[Building React Applications with Idiomatic Redux](https://egghead.io/courses/building-react-applications-with-idiomatic-redux)**。
+- Redux のメンテナである Mark Erikson による **[発表 "Redux Fundamentals"](http://blog.isquaredsoftware.com/2018/03/presentation-reactathon-redux-fundamentals/)**、および[**ワークショップスライド "Redux Fundamentals"**](https://blog.isquaredsoftware.com/2018/06/redux-fundamentals-workshop-slides/)
+- Dave Ceddia による [**A Complete React Redux Tutorial for Beginners**](https://daveceddia.com/redux-tutorial/)
 
-### Other Resources
+### その他のリソース
 
-- The **[Redux FAQ](../FAQ.md)** answers many common questions about how to use Redux, and the **["Recipes" docs section](../recipes/README.md)** has information on handling derived data, testing, structuring reducer logic, and reducing boilerplate.
-- Redux maintainer Mark Erikson's **["Practical Redux" tutorial series](http://blog.isquaredsoftware.com/series/practical-redux/)** demonstrates real-world intermediate and advanced techniques for working with React and Redux (also available as **[an interactive course on Educative.io](https://www.educative.io/collection/5687753853370368/5707702298738688)**).
-- The **[React/Redux links list](https://github.com/markerikson/react-redux-links)** has categorized articles on working with [reducers and selectors](https://github.com/markerikson/react-redux-links/blob/master/redux-reducers-selectors.md), [managing side effects](https://github.com/markerikson/react-redux-links/blob/master/redux-side-effects.md), [Redux architecture and best practices](https://github.com/markerikson/react-redux-links/blob/master/redux-architecture.md), and more.
-- Our community has created thousands of Redux-related libraries, addons, and tools. The **["Ecosystem" docs page](./Ecosystem.md)** lists our recommendations, and there's a complete listing available in the **[Redux addons catalog](https://github.com/markerikson/redux-ecosystem-links)**.
+- **[Redux FAQ](../FAQ.md)** では Redux の使い方に関する多くの質問に対する回答が載っています。and the **["レシピ" セクション](../recipes/README.md)** には派生データの処理、テスト、リデューサの構成、ボイラープレート削減に関する情報が掲載されています。
+- Redux メンテナである Mark Erikson による **[チュートリアルシリーズ "Practical Redux"](http://blog.isquaredsoftware.com/series/practical-redux/)** には、実世界で React と Redux を使う場合の中上級テクニックに関するデモがあります。（**[Educative.io のインタラクティブコース](https://www.educative.io/collection/5687753853370368/5707702298738688)**でも利用可能。）
+- **[React/Redux リンク集](https://github.com/markerikson/react-redux-links)** には[リデューサとセレクタ](https://github.com/markerikson/react-redux-links/blob/master/redux-reducers-selectors.md), [副作用の管理](https://github.com/markerikson/react-redux-links/blob/master/redux-side-effects.md), [Redux アーキテクチャとベストプラクティス](https://github.com/markerikson/react-redux-links/blob/master/redux-architecture.md)などに関する記事がカテゴリ別に掲載されています。
+- コミュニティによって何千もの Redux 関連ライブラリ、アドオン、ツールが作成されています。**[ドキュメントの "エコシステム" ページ](./Ecosystem.md)** に我々が推奨するもののリストがあり、**[Redux addons catalog](https://github.com/markerikson/redux-ecosystem-links)**には全リストもあります。
 
-## Help and Discussion
+## ヘルプとディスカッション
 
-The **[#redux channel](https://discord.gg/reactiflux)** of the **[Reactiflux Discord community](http://www.reactiflux.com)** is our official resource for all questions related to learning and using Redux. Reactiflux is a great place to hang out, ask questions, and learn - come join us!
+**[Reactiflux Discord コミュニティ](http://www.reactiflux.com)** の **[#redux channel](https://discord.gg/reactiflux)** は Redux を学び、使用する際のあらゆる疑問に関する公式なリソースです。Reactflix はたびたび訪れ、質問し、学ぶのにとてもよい場所ですので、是非参加してください！
 
-You can also ask questions on [Stack Overflow](https://stackoverflow.com) using the **[#redux tag](https://stackoverflow.com/questions/tagged/redux)**.
+[Stack Overflow](https://stackoverflow.com) で **[#redux tag](https://stackoverflow.com/questions/tagged/redux)** を付けて質問することもできます。
 
-If you have a bug report or need to leave other feedback, [please file an issue on the Github repo](https://github.com/reduxjs/redux)
+バグレポートやその他のフィードバックを残したい場合は [Github リポジトリに issue を作成してください](https://github.com/reduxjs/redux)。
 
-## Should You Use Redux?
+## Redux を使うべきですか？
 
-Redux is a valuable tool for organizing your state, but you should also consider whether it's appropriate for your situation. **Don't use Redux just because someone said you should - take some time to understand the potential benefits and tradeoffs of using it**.
+Redux はステートを管理するための価値あるツールですが、あなたの置かれている状況で本当に適切なのかを検討するべきです。**誰かが Redux を使うべきだと言ったというだけの理由で Redux を使うのは止めましょう。時間をかけて、Redux の利点とトレードオフを理解してください。**
 
-Here are some suggestions on when it makes sense to use Redux:
+Redux を使うとよいと言えそうなのは、例えば以下のような場合でしょう。
 
-- You have reasonable amounts of data changing over time
-- You need a single source of truth for your state
-- You find that keeping all your state in a top-level component is no longer sufficient
+- 経時的に変化するデータがかなりの量で存在する
+- ステートに信頼できる唯一の情報源 (single source of truth) が欲しい
+- トップレベルコンポーネントで state を全部管理するのが適切と思えなくなってきた
 
-> **For more thoughts on how Redux is meant to be used, see:**
+> **Redux をどんな場面で使うべきかについて、更なる情報は以下を参照してください。**
 >
 > - **[Redux FAQ: When should I use Redux?](../faq/General.md#when-should-i-use-redux)**
 > - **[You Might Not Need Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)**

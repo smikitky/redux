@@ -1,6 +1,6 @@
 module.exports = {
   docs: {
-    Introduction: [
+    概要: [
       'introduction/getting-started',
       'introduction/installation',
       'introduction/core-concepts',
@@ -8,7 +8,7 @@ module.exports = {
       'introduction/ecosystem',
       'introduction/examples'
     ],
-    Tutorials: [
+    チュートリアル: [
       'tutorials/tutorials-index',
       {
         type: 'category',
@@ -37,7 +37,7 @@ module.exports = {
         ]
       }
     ],
-    Recipes: [
+    レシピ: [
       'recipes/recipe-index',
       'recipes/configuring-your-store',
       'recipes/usage-with-typescript',
@@ -71,10 +71,10 @@ module.exports = {
         ]
       }
     ],
-    'Understanding Redux': [
+    'Redux を理解する': [
       {
         type: 'category',
-        label: 'Thinking in Redux',
+        label: 'Redux の考え方',
         items: [
           'understanding/thinking-in-redux/motivation',
           'understanding/thinking-in-redux/three-principles',
@@ -83,7 +83,7 @@ module.exports = {
       },
       {
         type: 'category',
-        label: 'History and Design',
+        label: '歴史・設計',
         items: [
           'understanding/history-and-design/prior-art',
           'understanding/history-and-design/middleware'
@@ -104,8 +104,8 @@ module.exports = {
       'faq/react-redux',
       'faq/miscellaneous'
     ],
-    'Style Guide': ['style-guide/style-guide'],
-    'API Reference': [
+    スタイルガイド: ['style-guide/style-guide'],
+    'API リファレンス': [
       'api/api-reference',
       'api/createstore',
       'api/store',

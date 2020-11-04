@@ -23,19 +23,19 @@ module.exports = {
       },
       items: [
         {
-          label: 'Getting Started',
+          label: 'スタートガイド',
           to: 'introduction/getting-started',
           position: 'right'
         },
         {
-          label: 'Tutorial',
+          label: 'チュートリアル',
           to: 'tutorials/essentials/part-1-overview-concepts',
           position: 'right'
         },
         { label: 'API', to: 'api/api-reference', position: 'right' },
         { label: 'FAQ', to: 'faq', position: 'right' },
         {
-          label: 'Best Practices',
+          label: 'ベストプラクティス',
           to: '/style-guide/style-guide',
           position: 'right'
         },
@@ -43,12 +43,12 @@ module.exports = {
           label: 'GitHub',
           href: 'https://www.github.com/reduxjs/redux',
           position: 'right'
-        },
-        {
-          label: 'Need help?',
+        }
+        /*{
+          label: '困ったときは',
           to: 'introduction/getting-started#help-and-discussion',
           position: 'right'
-        }
+        }*/
       ]
     },
     footer: {

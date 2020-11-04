@@ -2,4 +2,4 @@
   base    = "website"
   publish = "build"
   command = "npm run build && cp _redirects ./build"
-  ignore = "false" # Added to always re-build contents
+  ignore = "git diff --quiet HEAD^ HEAD -- ../docs/ ."

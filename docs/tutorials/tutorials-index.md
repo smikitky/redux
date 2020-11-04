@@ -16,6 +16,6 @@ description: 'Overview of the Redux tutorial pages'
 
 :::tip
 
-**まずは [Redux 必須チュートリアル](./essentials/part-1-overview-concepts)から始めることをお勧めします**。実際のアプリケーションを書くにあたって Redux をどう使うのかに関して、知っておくべきキーポイントが網羅されています。
+**まずは [Redux Essentials チュートリアル](./essentials/part-1-overview-concepts)から始めることをお勧めします**。実際のアプリケーションを書くにあたって Redux をどう使うのかに関して、知っておくべきキーポイントが網羅されています。
 
 :::

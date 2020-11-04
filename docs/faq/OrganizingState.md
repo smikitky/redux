@@ -1,11 +1,12 @@
 ---
 id: organizing-state
-title: Organizing State
+title: ステートの構成
 hide_title: true
 ---
 
-# Redux FAQ: Organizing State
+# Redux FAQ: ステートの構成
 
+<!--
 ## Table of Contents
 
 - [Redux FAQ: Organizing State](#redux-faq-organizing-state)
@@ -19,29 +20,30 @@ hide_title: true
       - [Further information](#further-information-2)
     - [Should I put form state or other UI state in my store?](#should-i-put-form-state-or-other-ui-state-in-my-store)
       - [Further Information](#further-information-3)
+-->
 
-## Organizing State
+## ステートの構成
 
-### Do I have to put all my state into Redux? Should I ever use React's `setState()`?
+### すべてのステートを Redux に入れる必要がありますか？ `setState()` を使ってもいいですか？
 
-There is no “right” answer for this. Some users prefer to keep every single piece of data in Redux, to maintain a fully serializable and controlled version of their application at all times. Others prefer to keep non-critical or UI state, such as “is this dropdown currently open”, inside a component's internal state.
+これに「正しい」回答はありません。ユーザーによっては、アプリケーションの完全にシリアル化され制御されたバージョンを常に維持するために、あらゆるデータを Redux に保持したいと考えています。「このドロップダウンは現在オープンか」などの重要でない UI のステートはコンポーネントの内部状態の中に保持することを好むユーザーもいます。
 
-**_Using local component state is fine_**. As a developer, it is _your_ job to determine what kinds of state make up your application, and where each piece of state should live. Find a balance that works for you, and go with it.
+**ローカルのコンポーネントのステートを使用することに問題はありません**。開発者として、アプリケーションを構成するステートの種類、ステートの各パーツをどこに置くかを決定するのは、*あなた*の仕事です。自分に合ったバランスを見つけて、それに従ってください。
 
-Some common rules of thumb for determining what kind of data should be put into Redux:
+どのようなデータを Redux に入れるべきかを決定するための一般的な経験則がいくつかあります：
 
-- Do other parts of the application care about this data?
-- Do you need to be able to create further derived data based on this original data?
-- Is the same data being used to drive multiple components?
-- Is there value to you in being able to restore this state to a given point in time (ie, time travel debugging)?
-- Do you want to cache the data (ie, use what's in state if it's already there instead of re-requesting it)?
-- Do you want to keep this data consistent while hot-reloading UI components (which may lose their internal state when swapped)?
+- アプリケーションの他の部分でこのデータを気にすることがあるか？
+- この元データから派生的に別のデータを作成できる必要があるか？
+- この同一データを、複数のコンポーネントを動かすために使うか？
+- このステートをある特定の時点に戻せるということ（タイムトラベルデバッギング）に価値があるか？
+- このデータをキャッシュする（つまり既にステート内にある場合は再リクエストせずにそちらを使う）必要があるか？
+- UI コンポーネントのホットリローディングの際にもこのデータを保持しておきたいか？（コンポーネントが入れ替わると内部 state は失われる可能性がある）
 
-There are a number of community packages that implement various approaches for storing per-component state in a Redux store instead, such as [redux-component](https://github.com/tomchentw/redux-component), [redux-react-local](https://github.com/threepointone/redux-react-local), and more. It's also possible to apply Redux's principles and concept of reducers to the task of updating local component state as well, along the lines of `this.setState( (previousState) => reducer(previousState, someAction))`.
+コンポーネントごとのステートをローカルではなく Redux ストアに保管するための様々なアプローチを実装した、[redux-component](https://github.com/tomchentw/redux-component) や [redux-react-local](https://github.com/threepointone/redux-react-local) などのコミュニティパッケージが存在します。またローカルのコンポーネントステートの更新タスクに Redux リデューサの原理や概念を適用して `this.setState( (previousState) => reducer(previousState, someAction))` のようにすることも可能です。
 
-#### Further information
+#### 参考情報
 
-**Articles**
+**記事**
 
 - [When (and when not) to reach for Redux](https://changelog.com/posts/when-and-when-not-to-reach-for-redux)
 - [You Might Not Need Redux](https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367)
@@ -52,7 +54,7 @@ There are a number of community packages that implement various approaches for s
 - [The 5 Types of React Application State](http://jamesknelson.com/5-types-react-application-state/)
 - [Shape Your Redux Store Like Your Database](https://hackernoon.com/shape-your-redux-store-like-your-database-98faa4754fd5)
 
-**Discussions**
+**ディスカッション**
 
 - [#159: Investigate using Redux for pseudo-local component state](https://github.com/reduxjs/redux/issues/159)
 - [#1098: Using Redux in reusable React component](https://github.com/reduxjs/redux/issues/1098)
@@ -65,19 +67,19 @@ There are a number of community packages that implement various approaches for s
 - [Stack Overflow: Why is state all in one place, even state that isn't global?](http://stackoverflow.com/questions/35664594/redux-why-is-state-all-in-one-place-even-state-that-isnt-global)
 - [Stack Overflow: Should all component state be kept in Redux store?](http://stackoverflow.com/questions/35328056/react-redux-should-all-component-states-be-kept-in-redux-store)
 
-**Libraries**
+**ライブラリ**
 
 - [Redux Addons Catalog: Component State](https://github.com/markerikson/redux-ecosystem-links/blob/master/component-state.md)
 
-### Can I put functions, promises, or other non-serializable items in my store state?
+### ストアのステートに関数や Promise やその他シリアライズできない値を入れても構いませんか？
 
-It is highly recommended that you only put plain serializable objects, arrays, and primitives into your store. It's _technically_ possible to insert non-serializable items into the store, but doing so can break the ability to persist and rehydrate the contents of a store, as well as interfere with time-travel debugging.
+シリアライズ可能なオブジェクト、配列、プリミティブのみをストアに入れることを強くお勧めします。ストアにシリアライズ可能でないアイテムを挿入することは*技術的には*可能ですが、そうするとストアの内容を永続化・復帰したり、タイムトラベルデバッグを行ったりといった機能が壊れる原因になります。
 
-If you are okay with things like persistence and time-travel debugging potentially not working as intended, then you are totally welcome to put non-serializable items into your Redux store. Ultimately, it's _your_ application, and how you implement it is up to you. As with many other things about Redux, just be sure you understand what tradeoffs are involved.
+永続化やタイムトラベルデバッグのようなものが意図した通り動作しない可能性があっても構わないのであれば、Redux ストアにシリアライズ可能ではないアイテムを入れるのは問題ありません。結局のところ、それは*あなたの*アプリケーションであり、どのように実装するかはあなた次第です。Redux に関する他の多くのことと同様に、どのようなトレードオフが関係しているのかを理解しておくようにしてください。
 
-#### Further information
+#### 参考情報
 
-**Discussions**
+**ディスカッション**
 
 - [#1248: Is it ok and possible to store a react component in a reducer?](https://github.com/reduxjs/redux/issues/1248)
 - [#1279: Have any suggestions for where to put a Map Component in Flux?](https://github.com/reduxjs/redux/issues/1279)
@@ -85,9 +87,9 @@ If you are okay with things like persistence and time-travel debugging potential
 - [#1407: Just sharing a great base class](https://github.com/reduxjs/redux/issues/1407)
 - [#1793: React Elements in Redux State](https://github.com/reduxjs/redux/issues/1793)
 
-### How do I organize nested or duplicate data in my state?
+### ステート内で重複していたりネストしていたりするデータをどう整理するのですか？
 
-Data with IDs, nesting, or relationships should generally be stored in a “normalized” fashion: each object should be stored once, keyed by ID, and other objects that reference it should only store the ID rather than a copy of the entire object. It may help to think of parts of your store as a database, with individual “tables” per item type. Libraries such as [normalizr](https://github.com/paularmstrong/normalizr) and [redux-orm](https://github.com/tommikaikkonen/redux-orm) can provide help and abstractions in managing normalized data.
+ID、入れ子、またはリレーションシップを持つようなデータは、一般的に「正規化された」方法で保存されるべきです。各オブジェクトは ID をキーにして一度だけ保存され、それを参照する他のオブジェクトは、オブジェクト全体のコピーではなく、ID のみを保存するようにします。ストアの一部をデータベースのようなものと考えて、アイテムタイプごとに個別の「テーブル」があると考えるといいかもしれません。[normalizr](https://github.com/paularmstrong/normalizr) や [redux-orm](https://github.com/tommikaikkonen/redux-orm) などのライブラリは、正規化されたデータを管理するための機能や抽象化を提供します。
 
 #### Further information
 
@@ -118,25 +120,25 @@ Data with IDs, nesting, or relationships should generally be stored in a “norm
 - [Stack Overflow: How to handle tree-shaped entities in Redux reducers?](http://stackoverflow.com/questions/32798193/how-to-handle-tree-shaped-entities-in-redux-reducers)
 - [Stack Overflow: How to optimize small updates to props of nested components in React + Redux?](http://stackoverflow.com/questions/37264415/how-to-optimize-small-updates-to-props-of-nested-component-in-react-redux)
 
-### Should I put form state or other UI state in my store?
+### フォームの状態やその他の UI ステートをストアに入れるべきですか？
 
-The [same rules of thumb for deciding what should go in the Redux store](#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate) apply for this question as well.
+[Redux ストアに何を入れるかに関しての経験則](#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate) はここでも当てはまります。
 
-**Based on those rules of thumb, most form state doesn't need to go into Redux**, as it's probably not being shared between components. However, that decision is always going to be specific to you and your application. You might choose to keep some form state in Redux because you are editing data that came from the store originally, or because you do need to see the work-in-progress values reflected in other components elsewhere in the application. On the other hand, it may be a lot simpler to keep the form state local to the component, and only dispatch an action to put the data in the store once the user is done with the form.
+**これらの経験則に基づけば、ほとんどのフォームの状態は、コンポーネント間で共有されていないため、Redux に入る必要はありません**。しかし、この決定は常にあなたとあなたのアプリケーションに特有のものになります。元々ストアから来たデータを編集させたい、あるいは編集中の値がアプリケーションの他の場所のコンポーネントに反映される必要があるといった理由で、フォーム状態の一部を Redux に保存することにするかもしれません。一方で、フォームの状態をコンポーネントにローカルに保持しておき、ユーザーがフォーム操作を終えた後にそのデータをストアに格納するアクションをディスパッチする方が、ずっとシンプルかもしれません。
 
-Based on this, in most cases you probably don't need a Redux-based form management library either. We suggest trying these approaches, in this order:
+というわけで、大抵の場合は Redux ベースのフォーム管理ライブラリも必要ないでしょう。以下のアプローチを以下の順番で試みることをお勧めします。
 
-- Even if the data is coming from the Redux store, start by writing your form logic by hand. It's likely this is all you'll need. (See [**Gosha Arinich's posts on working with forms in React**](https://goshakkk.name/on-forms-react/) for some excellent guidance on this.)
-- If you decide that writing forms "manually" is too difficult, try a React-based form library like [Formik](https://github.com/jaredpalmer/formik) or [React-Final-Form](https://github.com/final-form/react-final-form).
-- If you are absolutely sure you _must_ use a Redux-based form library because the other approaches aren't sufficient, then you may finally want to look at [Redux-Form](https://github.com/erikras/redux-form) and [React-Redux-Form](https://github.com/davidkpiano/react-redux-form).
+- データが Redux ストアから来ている場合でも、まずはフォームロジックの手書きから始めて下さい。大抵の場合はこれが必要なすべてです。（[**Gosha Arinich による React でのフォームの扱い方に関する記事**](https://goshakkk.name/on-forms-react/)にこれについての素晴らしいガイダンスがあります）
+- 手書きでフォームを書くのが難しすぎると分かった場合、[Formik](https://github.com/jaredpalmer/formik) や [React-Final-Form](https://github.com/final-form/react-final-form) のような React ベースのフォームライブラリを試してみてください.
+- 他のアプローチではうまくいかないので Redux ベースのフォームライブラリが絶対に必要だという確証がある場合は、最終手段として [Redux-Form](https://github.com/erikras/redux-form) や [React-Redux-Form](https://github.com/davidkpiano/react-redux-form) のようなものを見てみてください。
 
-If you are keeping form state in Redux, you should take some time to consider performance characteristics. Dispatching an action on every keystroke of a text input probably isn't worthwhile, and you may want to look into [ways to buffer keystrokes to keep changes local before dispatching](https://blog.isquaredsoftware.com/2017/01/practical-redux-part-7-forms-editing-reducers/). As always, take some time to analyze the overall performance needs of your own application.
+Redux でフォームの状態を保持する場合、パフォーマンス特性について時間をかけて考慮するべきです。テキスト入力のすべてのキーストロークに対してアクションをディスパッチすることにはおそらく価値がないでしょうし、[ディスパッチ前にキーストロークをローカルにバッファリングする方法](https://blog.isquaredsoftware.com/2017/01/practical-redux-part-7-forms-editing-reducers/)についても調べてみてください。いつものように、あなた自身のアプリケーションの全体的なパフォーマンス要求を分析するために時間をかけてください。
 
-Other kinds of UI state follow these rules of thumb as well. The classic example is tracking an `isDropdownOpen` flag. In most situations, the rest of the app doesn't care about this, so in most cases it should stay in component state. However, depending on your application, it may make sense to use Redux to [manage dialogs and other popups](https://blog.isquaredsoftware.com/2017/07/practical-redux-part-10-managing-modals/), tabs, expanding panels, and so on.
+他の種類の UI ステートも、上記の経験則に従います。典型的な例は `isDropdownOpen` フラグの管理です。大抵はアプリの他の部分はこれを気にしないので、ほとんどの場合はコンポーネントのステートに留めておくべきです。しかし、アプリケーションによっては、[ダイアログやその他のポップアップ](https://blog.isquaredsoftware.com/2017/07/practical-redux-part-10-managing-modals/)、タブ、開閉可能なパネルなどの状態管理に Redux を使用することが理にかなっているかもしれません。
 
-#### Further Information
+#### 参考情報
 
-**Articles**
+**記事**
 
 - [Gosha Arinich: Writings on Forms in React](https://goshakkk.name/on-forms-react/)
 - [Practical Redux, Part 6: Connected Lists and Forms](https://blog.isquaredsoftware.com/2017/01/practical-redux-part-6-connected-lists-forms-and-performance/)

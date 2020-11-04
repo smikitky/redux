@@ -1,11 +1,12 @@
 ---
 id: reducers
-title: Reducers
+title: リデューサ
 hide_title: true
 ---
 
-# Redux FAQ: Reducers
+# Redux FAQ: リデューサ
 
+<!--
 ## Table of Contents
 
 - [Redux FAQ: Reducers](#redux-faq-reducers)
@@ -15,29 +16,30 @@ hide_title: true
       - [Further information](#further-information)
     - [Do I have to use the `switch` statement to handle actions?](#do-i-have-to-use-the-switch-statement-to-handle-actions)
       - [Further information](#further-information-1)
+-->
 
-## Reducers
+## リデューサ
 
-### How do I share state between two reducers? Do I have to use `combineReducers`?
+### 2 つのリデューサ間でステートを共有する方法は？ `combineReducers` は使う必要がありますか？
 
-The suggested structure for a Redux store is to split the state object into multiple “slices” or “domains” by key, and provide a separate reducer function to manage each individual data slice. This is similar to how the standard Flux pattern has multiple independent stores, and Redux provides the [`combineReducers`](../api/combineReducers.md) utility function to make this pattern easier. However, it's important to note that `combineReducers` is _not_ required—it is simply a utility function for the common use case of having a single reducer function per state slice, with plain JavaScript objects for the data.
+Redux ストアの構造として推奨されているのは、ステートオブジェクトをキーごとに複数の「スライス」または「ドメイン」に分割し、個々のデータスライスを管理するため個別にリデューサ関数を与えるというものです。これは標準の Flux パターンが複数の独立したストアを持つのと似ており、Redux はこのパターンをより簡単にするために [`combineReducers`](../api/combineReducers.md) ユーティリティ関数を提供しています。しかし、`combineReducers` は必須*ではない*ことに注意することが重要です。これは「ステートスライスごとに単一のリデューサ関数があってデータにはプレーンな JavaScript オブジェクトを使用する」という一般的な使用例のためのユーティリティ関数に過ぎません。
 
-Many users later want to try to share data between two reducers, but find that `combineReducers` does not allow them to do so. There are several approaches that can be used:
+2 つのリデューサ間でデータを共有したいのに `combineReducers` ではそれができない、と多くのユーザが後になって気付きます。そんな時に使用できるアプローチはいくつかあります：
 
-- If a reducer needs to know data from another slice of state, the state tree shape may need to be reorganized so that a single reducer is handling more of the data.
-- You may need to write some custom functions for handling some of these actions. This may require replacing `combineReducers` with your own top-level reducer function. You can also use a utility such as [reduce-reducers](https://github.com/acdlite/reduce-reducers) to run `combineReducers` to handle most actions, but also run a more specialized reducer for specific actions that cross state slices.
-- - [Middleware with async logic](../tutorials/fundamentals/part-4-store.md#middleware) such as [redux-thunk](https://github.com/reduxjs/redux-thunk) have access to the entire state through `getState()`. An action creator can retrieve additional data from the state and put it in an action, so that each reducer has enough information to update its own state slice.
+- リデューサが別のステートスライスからのデータを知る必要がある場合、ステートツリー形を再編成して、1 つのリデューサがより多くのデータを扱うようにする必要があるかもしれません。
+- これらのアクションの一部を処理するためにカスタム関数を書く必要があるかもしれません。そのためには、`combineReducers` を独自のトップレベルのレデューサ関数で置き換える必要があるかもしれません。また、[reduce-reducers](https://github.com/acdlite/reduce-reducers) のようなユーティリティを使用すれば `combineReducers` を実行してほとんどのアクションを処理させつつ、ステートスライスをまたがる特定のアクションのために、より特化したリデューサも実行するようにできます。
+- - [redux-thunk](https://github.com/reduxjs/redux-thunk) のような[非同期ロジックを持つミドルウェア](../tutorials/fundamentals/part-4-store.md#middleware)は、`getState()` を通じて全体の状態にアクセスできます。アクションクリエータはステートから追加のデータを取得してアクションに入れることができ、そうすることで各リデューサが自分のステートスライスを更新するのに十分な情報を持つようにできます。
 
-In general, remember that reducers are just functions—you can organize them and subdivide them any way you want, and you are encouraged to break them down into smaller, reusable functions (“reducer composition”). While you do so, you may pass a custom third argument from a parent reducer if a child reducer needs additional data to calculate its next state. You just need to make sure that together they follow the basic rules of reducers: `(state, action) => newState`, and update state immutably rather than mutating it directly.
+一般論として、リデューサは単なる関数であるということを覚えておいてください。どのように構成するのも分割するのもあなたの自由ですが、小さく再利用可能な関数に分割すること（"reducer composition"）が推奨されています。その際に、子リデューサが次のステートを計算するのに追加のデータが必要なのであれば、親リデューサからカスタムの 3 番目の引数を与えることができます。最終的な組み合わせが `(state, action) => newState` となり、ステートをミューテートせずイミュターブルに更新するといった基本的なリデューサのルールに従ってさえいれば良いのです。
 
-#### Further information
+#### 参考情報
 
-**Documentation**
+**ドキュメント内**
 
 - [API: combineReducers](../api/combineReducers.md)
 - [Recipes: Structuring Reducers](../recipes/structuring-reducers/StructuringReducers.md)
 
-**Discussions**
+**ディスカッション**
 
 - [#601: A concern on combineReducers, when an action is related to multiple reducers](https://github.com/reduxjs/redux/issues/601)
 - [#1400: Is passing top-level state object to branch reducer an anti-pattern?](https://github.com/reduxjs/redux/issues/1400)
@@ -45,18 +47,18 @@ In general, remember that reducers are just functions—you can organize them an
 - [Stack Overflow: Reducing an entire subtree with redux combineReducers](http://stackoverflow.com/questions/34427851/reducing-an-entire-subtree-with-redux-combinereducers)
 - [Sharing State Between Redux Reducers](https://invalidpatent.wordpress.com/2016/02/18/sharing-state-between-redux-reducers/)
 
-### Do I have to use the `switch` statement to handle actions?
+### アクションをハンドルする際に `switch` 文を使う必要はありますか？
 
-No. You are welcome to use any approach you'd like to respond to an action in a reducer. The `switch` statement is the most common approach, but it's fine to use `if` statements, a lookup table of functions, or to create a function that abstracts this away. In fact, while Redux does require that action objects contain a `type` field, your reducer logic doesn't even have to rely on that to handle the action. That said, the standard approach is definitely using a switch statement or a lookup table based on `type`.
+いいえ。リデューサー内でアクションに応答するためにどのようなアプローチを使っても全く構いません。`switch` 文は最も一般的なアプローチですが、`if` 文や関数ルックアップテーブルを使用しても構いませんし、これを抽象化した関数を作成しても構いません。実際、Redux はアクションオブジェクトに `type` フィールドを含めることを要求していますが、リデューサのロジックはアクションを処理するために `type` フィールドに依存する必要すらありません。とはいえ、標準的アプローチは、間違いなく `type` に基づいて `switch` 文やルックアップテーブルを使用することです。
 
-#### Further information
+#### 参考情報
 
-**Documentation**
+**ドキュメント内**
 
 - [Recipes: Reducing Boilerplate](../recipes/ReducingBoilerplate.md)
 - [Recipes: Structuring Reducers - Splitting Reducer Logic](../recipes/structuring-reducers/SplittingReducerLogic.md)
 
-**Discussions**
+**ディスカッション**
 
 - [#883: take away the huge switch block](https://github.com/reduxjs/redux/issues/883)
 - [#1167: Reducer without switch](https://github.com/reduxjs/redux/issues/1167)

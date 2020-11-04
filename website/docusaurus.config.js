@@ -1,7 +1,7 @@
 module.exports = {
   title: 'Redux',
   tagline: 'A Predictable State Container for JS Apps',
-  url: 'https://redux-ja.netlify.ap',
+  url: 'https://redux-ja.netlify.app',
   baseUrl: '/',
   favicon: 'img/favicon/favicon.ico',
   organizationName: 'reduxjs',

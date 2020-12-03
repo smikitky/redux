@@ -182,14 +182,14 @@ However, doing the logic in the reducer is preferable for several reasons:
 
 ### ステートの形はリデューサが決める
 
-The Redux root state is owned and calculated by the single root reducer function. For maintainability, that reducer is intended to be split up by key/value "slices", with **each "slice reducer" being responsible for providing an initial value and calculating the updates to that slice of the state**.
+Redux のルートステートは単一のルートリデューサ関数によって所有され、計算されます。メンテナンス性を向上するため、そのルートリデューサはキー/バリュー式の「スライス」に分割できるようになっており、**それぞれの「スライスリデューサ」がステートの対応するスライスに対して初期値を与えたり更新を計算したりする責務を負います**。
 
-In addition, slice reducers should exercise control over what other values are returned as part of the calculated state. **Minimize the use of "blind spreads/returns"** like `return action.payload` or `return {...state, ...action.payload}`, because those rely on the code that dispatched the action to correctly format the contents, and the reducer effectively gives up its ownership of what that state looks like. That can lead to bugs if the action contents are not correct.
+加えて、スライスリデューサは計算されたステートの一部として他のどのような値が返されるかについてしっかり制御を握るべきです。`return action.payload` あるいは `return {...state, ...action.payload}` のような形で**盲目的にスプレッドやリターンを行うことはできるだけ避けてください**。ステートの中身を構成する部分でアクションをディスパッチする側のコードに依存することになってしまい、ステートの中身がどう見えるかについてリデューサは所有者としての制御を放棄することになってしまうからです。これはアクションの中身が正しくない場合にバグの原因となります。
 
-> **Note**: A "spread return" reducer may be a reasonable choice for scenarios like editing data in a form, where writing a separate action type for each individual field would be time-consuming and of little benefit.
+> **補足**: フォームのデータを編集するようなシナリオでは、個々のフィールドのためにいちいち別のアクションタイプを書くことは時間がかかりメリットも少ないため、「スプレッドしてリターン」するリデューサは合理的な選択かもしれません。
 
 <DetailedExplanation>
-Picture a "current user" reducer that looks like:
+以下のような「現在のユーザ」というリデューサを考えてみましょう：
 
 ```js
 const initialState = {
@@ -208,9 +208,9 @@ export default usersReducer = (state = initialState, action) {
 }
 ```
 
-In this example, the reducer completely assumes that `action.payload` is going to be a correctly formatted object.
+この例では、リデューサは `action.playload` が正しくフォーマットされたオブジェクトであるということに完全に依拠しています。
 
-However, imagine if some part of the code were to dispatch a "todo" object inside the action, instead of a "user" object:
+しかしどこかのコードでユーザオブジェクトではなく ToDo オブジェクトをディスパッチするようになっていたらどうなるか考えてみましょう：
 
 ```js
 dispatch({
@@ -222,22 +222,22 @@ dispatch({
 })
 ```
 
-The reducer would blindly return the todo, and now the rest of the app would likely break when it tries to read the user from the store.
+リデューサは盲目的に ToDo を返すようになり、アプリの残りの部分は、ストアからユーザを読み出そうとして恐らく壊れてしまうでしょう。
 
-This could be at least partly fixed if the reducer has some validation checks to ensure that `action.payload` actually has the right fields, or tries to read the right fields out by name. That does add more code, though, so it's a question of trading off more code for safety.
+`action.payload`に正しい値が入っているかを確認するバリデーションを加えるか、名前で正しいフィールドを読み出すようにすることで、これは少なくとも部分的には修正可能です。これによりコードは増えますので、安全のためにコードを増やすというトレードオフの問題です。
 
-Use of static typing does make this kind of code safer and somewhat more acceptable. If the reducer knows that `action` is a `PayloadAction<User>`, then it _should_ be safe to do `return action.payload`.
+静的な型チェックを加えることでこのようなコードはより安全になり、いくぶん許容度が高まります。リデューサが `action` が `PayloadAction<User>` であるということが分かっていれば、`return action.payload` とすることは安全な*はず*です。
 
 </DetailedExplanation>
 
 ### 保存されているデータに基づいてステートスライスの名前を付ける
 
-As mentioned in [Reducers Should Own the State Shape ](#reducers-should-own-the-state-shape), the standard approach for splitting reducer logic is based on "slices" of state. Correspondingly, `combineReducers` is the standard function for joining those slice reducers into a larger reducer function.
+[Reducers Should Own the State Shape](#reducers-should-own-the-state-shape)で述べたとおり、リデューサのロジックを分割するための標準的なアプローチはステートの「スライス」を使うことです。同様に `combineReducers` がこれらスライスリデューサを大きなリデューサ関数に結合するための標準的な関数です。
 
-The key names in the object passed to `combineReducers` will define the names of the keys in the resulting state object. Be sure to name these keys after the data that is kept inside, and avoid use of the word "reducer" in the key names. Your object should look like `{users: {}, posts: {}}`, rather than `{usersReducer: {}, postsReducer: {}}`.
+`combineReducers` に渡されるオブジェクトのキー名が、結果となるステートオブジェクトのキー名を定義します。内部に何が保存されるかに基づいてこれらのキー名を決めるようにし、"reducer" という単語をキー名に含めないようにしてください。オブジェクトは `{usersReducer: {}, postsReducer: {}}` ではなく `{users: {}, posts: {}}` のような見た目になるべきです。
 
 <DetailedExplanation>
-ES6 object literal shorthand makes it easy to define a key name and a value in an object at the same time:
+ES6 のオブジェクトリテラル短縮記法により、オブジェクトのキー名と値とを同時に簡単に定義できます。
 
 ```js
 const data = 42
@@ -245,9 +245,9 @@ const obj = { data }
 // same as: {data: data}
 ```
 
-`combineReducers` accepts an object full of reducer functions, and uses that to generate state objects that have the same key names. This means that the key names in the functions object define the key names in the state object.
+`combineReducers` はリデューサ関数をたくさん含んだオブジェクトを受け取り、それを使って同じキー名のステートオブジェクトを生成します。つまり関数を含んだオブジェクトのキー名がそのままステートオブジェクトのキー名になるわけです。
 
-This results in a common mistake, where a reducer is imported using "reducer" in the variable name, and then passed to `combineReducers` using the object literal shorthand:
+このため、"reducer" という単語が含まれた変数名でリデューサをインポートし、それをオブジェクトの短縮記法で `combineReducers` に渡してしまう、というよくある間違いが生じます：
 
 ```js
 import usersReducer from 'features/users/usersSlice'
@@ -257,9 +257,9 @@ const rootReducer = combineReducers({
 })
 ```
 
-In this case, use of the object literal shorthand created an object like `{usersReducer: usersReducer}`. So, "reducer" is now in the state key name. This is redundant and useless.
+この場合、オブジェクトリテラル短縮記法は `{usersReducer: usersReducer}` というオブジェクトを作成します。つまり、ステートのキー名にも "reducer" が含まれてしまいます。これは無駄で無意味です。
 
-Instead, define key names that only relate to the data inside. We suggest using explicit `key: value` syntax for clarity:
+代わりに内部のデータのみに対応するキー名を定義してください。明示的な `key: value` 構文を使うといいでしょう：
 
 ```js
 import usersReducer from 'features/users/usersSlice'
@@ -271,26 +271,26 @@ const rootReducer = combineReducers({
 })
 ```
 
-It's a bit more typing, but it results in the most understandable code and state definition.
+タイプ量は少し増えますが、これでコードは最も分かりやすくなり、かつステートの定義も望ましいものになります。
 
 </DetailedExplanation>
 
 ### リデューサをステートマシンとして取り扱う
 
-Many Redux reducers are written "unconditionally". They only look at the dispatched action and calculate a new state value, without basing any of the logic on what the current state might be. This can cause bugs, as some actions may not be "valid" conceptually at certain times depending on the rest of the app logic. For example, a "request succeeded" action should only have a new value calculated if the state says that it's already "loading", or an "update this item" action should only be dispatched if there is an item marked as "being edited".
+多くの Redux のリデューサは「無条件」式に記述されています。現在のステートを見るようなロジックに一切依拠することなく、ディスパッチされたアクションだけを見て新しいステート値を計算しています。しかし、アプリの他のロジックによってはいくつかのアクションは意味的に「有効」でないことがあるため、これはバグの原因となります。例えば、「リクエスト成功」というアクションは、ステートが既に「ローディング」である場合に限り新しいステート値の計算を行うべきですし、「このアイテムを更新」というアクションは当該アイテムが「編集済み」の場合にのみディスパッチされるべきでしょう。
 
-To fix this, **treat reducers as "state machines", where the combination of both the current state _and_ the dispatched action determines whether a new state value is actually calculated**, not just the action itself unconditionally.
+これを修正するため、アクションそのものだけで無条件に計算するのではなく、**リデューサを「ステートマシン」として扱い、現在のステート*と*ディスパッチされたアクションの両方を使って新しいステート値を計算すべきかどうかを決定する**ようにしてください。
 
 <DetailedExplanation>
 
-A [finite state machine](https://en.wikipedia.org/wiki/Finite-state_machine) is a useful way of modeling something that should only be in one of a finite number of "finite states" at any time. For example, if you have a `fetchUserReducer`, the finite states can be:
+[有限ステートマシン](https://en.wikipedia.org/wiki/Finite-state_machine)は、任意の時点で有限個の「状態」のうちいずれかをとるようなものをモデルする場合に有用な考え方です。例えば、`fetchUserReducer` というものがある場合、有限個の状態とは以下のようなものでしょう：
 
-- `"idle"` (fetching not started yet)
-- `"loading"` (currently fetching the user)
-- `"success"` (user fetched successfully)
-- `"failure"` (user failed to fetch)
+- `"idle"` （取得は開始されていない）
+- `"loading"` （現在ロード中）
+- `"success"` （ユーザの取得は完了済）
+- `"failure"` （ユーザの取得に失敗）
 
-To make these finite states clear and [make impossible states impossible](https://kentcdodds.com/blog/make-impossible-states-impossible), you can specify a property that holds this finite state:
+このような有限個の状態を明確にし、[ありえないステートを作れないようにする](https://kentcdodds.com/blog/make-impossible-states-impossible)ため、この有限個の状態を保持するようなプロパティを作成できます：
 
 ```js
 const initialUserState = {
@@ -300,9 +300,9 @@ const initialUserState = {
 }
 ```
 
-With TypeScript, this also makes it easy to use [discriminated unions](https://basarat.gitbook.io/typescript/type-system/discriminated-unions) to represent each finite state. For instance, if `state.status === 'success'`, then you would expect `state.user` to be defined and wouldn't expect `state.error` to be truthy. You can enforce this with types.
+こうすれば、TypeScript で [discriminated union](https://basarat.gitbook.io/typescript/type-system/discriminated-unions) を使ってこのような有限個の状態を表現するのも簡単になります。例えば、`state.status === 'success'` であれば `state.user` が定義されており `state.error` が truthy でないといけないと思うでしょう。このようなことを型で強制できるようになります。
 
-Typically, reducer logic is written by taking the action into account first. When modeling logic with state machines, it's important to take the state into account first. Creating "finite state reducers" for each state helps encapsulate behavior per state:
+典型的にはリデューサのロジックはまずアクションが何かを判断するように書かれます。が、ステートマシンでロジックをモデルする場合は、まずステートのことを判断するよう書くことが重要です。現在のステートそれぞれを元にした「有限個のステートリデューサ」を書くようにすることで、状態ごとのふるまいをカプセル化できます：
 
 ```js
 import {
@@ -348,30 +348,30 @@ const fetchUserReducer = (state, action) => {
 }
 ```
 
-Now, since you're defining behavior per state instead of per action, you also prevent impossible transitions. For instance, a `FETCH_USER` action should have no effect when `status === LOADING_STATUS`, and you can enforce that, instead of accidentally introducing edge-cases.
+これで、ふるまいをアクションごとにではなくステートごとに定義したため、ありえないステート遷移を防止することにもなります。例えば `FETCH_USER` というアクションは `status === LOADING_STATUS` の時には効果がなくなります。うっかりエッジケースを仕込んでしまう前にこのことを強制できるようになるのです。
 
 </DetailedExplanation>
 
 ### 複雑な入れ子構造・リレーションを有するステートは正規化する
 
-Many applications need to cache complex data in the store. That data is often received in a nested form from an API, or has relations between different entities in the data (such as a blog that contains Users, Posts, and Comments).
+多くのアプリケーションではストアに複雑なデータをキャッシュする必要があります。このようなデータはよく API からネストされたデータの形で取得されたり、内部の様々な要素間でリレーションを持っていたり（例えば Users、Posts、Comments からなるブログ）します。
 
-**Prefer storing that data in [a "normalized" form](../recipes/structuring-reducers/NormalizingStateShape.md) in the store**. This makes it easier to look up items based on their ID and update a single item in the store, and ultimately leads to better performance patterns.
+**ストア内のデータは[「正規化」された形](../recipes/structuring-reducers/NormalizingStateShape.md)で保持するようにしてください**。これにより ID ベースで要素を取得したり、ストア内のある要素を更新したりでき、ゆくゆくはよりよいパフォーマンスのパターンに繋がります。
 
 ### アクションはセッターではなくイベントとしてモデルする
 
-Redux does not care what the contents of the `action.type` field are - it just has to be defined. It is legal to write action types in present tense (`"users/update"`), past tense (`"users/updated"`), described as an event (`"upload/progress"`), or treated as a "setter" (`"users/setUserName"`). It is up to you to determine what a given action means in your application, and how you model those actions.
+Redux は `action.type` の中身が何なのかを気にしません。ただ定義さえされていれば構いません。アクションのタイプを現在形 (`"users/update"`) で書いても過去形 (`"users/updated"`) で書いてもイベントのように (`"upload/progress"`) 書いても、いわゆるセッター (`"users/setUserName"`) として書いても間違いではありません。あるアクションがアプリケーションでどのような意味を持ち、それらをどのように組み立てるのかは、あなたが決めることです。
 
-However, **we recommend trying to treat actions more as "describing events that occurred", rather than "setters"**. Treating actions as "events" generally leads to more meaningful action names, fewer total actions being dispatched, and a more meaningful action log history. Writing "setters" often results in too many individual action types, too many dispatches, and an action log that is less meaningful.
+しかし、**「セッター」ではなく、「起こったイベントの説明」としてアクションを扱うようにすることをお勧めします**。アクションを「イベント」として扱うことで、より意味のあるアクション名に繋がり、ディスパッチされるアクションの数を減らし、アクションログの履歴の意味がとりやすくなります。逆に「セッター」として書くことで個別アクションの数が増え、ディスパッチの数が増え、意味がとりづらいアクションログが生まれやすくなります。
 
 <DetailedExplanation>
-Imagine you've got a restaurant app, and someone orders a pizza and a bottle of Coke.  You could dispatch an action like:
+レストランのアプリがあり、誰かがピザとコーラを注文したとしましょう。以下のようなアクションをディスパッチするでしょう：
 
 ```js
 { type: "food/orderAdded",  payload: {pizza: 1, coke: 1} }
 ```
 
-Or you could dispatch:
+あるいは：
 
 ```js
 {
@@ -389,13 +389,13 @@ Or you could dispatch:
 }
 ```
 
-The first example would be an "event". "Hey, someone ordered a pizza and a pop, deal with it somehow".
+最初の例が「イベント」形式です。「誰かがピザとコーラを頼んだよ、何とか処理して」ということです。
 
-The second example is a "setter". "I _know_ there are fields for 'pizzas ordered' and 'pops ordered', and I am commanding you to set their current values to these numbers".
+2 番目の例が「セッター」です。「ピザの注文数とコーラの注文数に関するフィールドがあることは*分かっている*ので、その現在値をこの値に変えてくれ」ということです。
 
-The "event" approach only really needed a single action to be dispatched, and it's more flexible. It doesn't matter how many pizzas were already ordered. Maybe there's no cooks available, so the order gets ignored.
+「イベント」アプローチでは 1 つのアクションをディスパッチすればよく、より柔軟です。現在の注文数がどうであろうと気にしませんし、調理する人がいなければ注文は無視されるかもしれません。
 
-With the "setter" approach, the client code needed to know more about what the actual structure of the state is, what the "right" values should be, and ended up actually having to dispatch multiple actions to finish the "transaction".
+「セッター」アプローチでは、クライアント側のコードがステートの実際の構成がどんなもので、正しい値が何かを知っておく必要があり、「トランザクション」を完了するために複数のアクションをディスパッチする必要がありました。
 
 </DetailedExplanation>
 

@@ -221,7 +221,12 @@ JavaScript でイミュータビリティがどのように働くのかについ
 
 ### 用語
 
+<<<<<<< HEAD
 先に進む前に慣れ親しんでおいて欲しい、重要な Redux 用語がいくつかあります。
+=======
+There are some important Redux terms that you'll need to be familiar with before we continue:
+
+> > > > > > > upstream/master
 
 #### アクション (action)
 

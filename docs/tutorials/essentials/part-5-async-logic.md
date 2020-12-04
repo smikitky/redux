@@ -360,7 +360,7 @@ If we try calling `dispatch(fetchPosts())`, the `fetchPosts` thunk will first di
 
 We can listen for this action in our reducer and mark the request status as `'loading'`.
 
-Once the `Promise` resolves, the `fetchPosts` thunk takes the `response.posts` array we returned from the callback, and dispatches a `posts/fetchPosts/fulfilled'` action containing the posts array as `action.payload`:
+Once the `Promise` resolves, the `fetchPosts` thunk takes the `response.posts` array we returned from the callback, and dispatches a `'posts/fetchPosts/fulfilled'` action containing the posts array as `action.payload`:
 
 ![`createAsyncThunk`: posts pending action](/img/tutorials/essentials/devtools-posts-fulfilled.png)
 
@@ -598,7 +598,7 @@ Uncommenting that line will force the fake API to wait 2 seconds before respondi
 
 ## Loading Users
 
-We're now fetching and displaying our list of posts. But, if we look at the posts, there's a problem: they all now say "Unknown User" as the authors:
+We're now fetching and displaying our list of posts. But, if we look at the posts, there's a problem: they all now say "Unknown author" as the authors:
 
 ![Unknown post authors](/img/tutorials/essentials/posts-unknownAuthor.png)
 
